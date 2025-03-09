@@ -4,7 +4,7 @@ require_once('../../config/config.php');
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Debugging: Tampilkan data yang diterima
     var_dump($_POST);  // Ini akan menampilkan semua data yang diterima dari form
-    
+
     // Ambil data dari form
     $nama = $_POST['nama'];
     $alamat = $_POST['alamat'];

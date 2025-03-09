@@ -20,7 +20,7 @@
     <link href="../assets/22/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="../assets/22/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <script src="../assets/22/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>  <!-- Include Bootstrap JS -->
+    <script src="../assets/22/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> <!-- Include Bootstrap JS -->
     <script src="../assets/22/vendor/jquery-easing/jquery.easing.min.js"></script>
 </head>
 

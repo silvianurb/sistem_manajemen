@@ -21,11 +21,11 @@
     <div class="sidebar-heading">Pesanan</div>
 
     <li class="nav-item">
-    <a class="nav-link" href="#" id="menu-pelanggan">
-        <i class="fas fa-fw fa-users"></i>
-        <span>Pelanggan</span>
-    </a>
-</li>
+        <a class="nav-link" href="#" id="menu-pelanggan">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Pelanggan</span>
+        </a>
+    </li>
     <li class="nav-item">
         <a class="nav-link" href="#" id="menu-order">
             <i class="fas fa-fw fa-shopping-cart"></i>
@@ -44,7 +44,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link"href="#" id="menu-invoice">
+        <a class="nav-link" href="#" id="menu-invoice">
             <i class="fas fa-fw fa-file-invoice"></i>
             <span>Invoice</span>
         </a>
