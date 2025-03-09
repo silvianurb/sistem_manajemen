@@ -6,9 +6,8 @@
 
 <script>
     $(document).ready(function() {
-        // Ketika menu "Pelanggan" diklik
         $('#menu-pelanggan').click(function(e) {
-            e.preventDefault();  // Mencegah link untuk navigasi
+            e.preventDefault(); 
             $('#content-area').load('../views/pelanggan/pelanggan.php');
         });
     });
@@ -16,7 +15,7 @@
     // Script untuk menu "Order"
     $(document).ready(function() {
         $('#menu-order').click(function(e) {
-            e.preventDefault();  // Mencegah link untuk navigasi
+            e.preventDefault(); 
             $('#content-area').load('../views/order/order.php'); 
         });
     });
@@ -24,7 +23,7 @@
     // Script untuk menu "Pengguna"
     $(document).ready(function() {
         $('#menu-pengguna').click(function(e) {
-            e.preventDefault();  // Mencegah link untuk navigasi
+            e.preventDefault(); 
             $('#content-area').load('../views/order/order.php'); 
         });
     });

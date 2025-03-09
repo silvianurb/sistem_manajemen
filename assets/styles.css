@@ -1,0 +1,46 @@
+#dataTable_wrapper .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;  /* Menjaga agar keduanya sejajar secara vertikal */
+}
+
+/* Posisi Show entries di kiri */
+#dataTable_wrapper .dataTables_length {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: -5px;
+}
+
+/* Posisi Search di kanan */
+#dataTable_wrapper .dataTables_filter {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: -5px;
+}
+
+/* Atur tampilan select agar lebih kecil */
+#dataTable_wrapper .dataTables_length select {
+    width: 50px;  /* Ukuran kotak dropdown lebih kecil */
+    padding: 5px;
+    font-size: 12px;
+}
+
+#dataTable_wrapper .dataTables_length label {
+    margin: 0 5px; /* Memberikan jarak antara teks 'Show' dan 'entries' */
+}
+
+/* Atur tampilan input pencarian agar lebih kecil dan sejajar */
+#dataTable_wrapper .dataTables_filter input {
+    width: 200px;  /* Ukuran kotak pencarian diperlebar */
+    padding: 5px;
+    font-size: 12px;
+}
+
+/* Membuat label dan input 'search' lebih sejajar */
+#dataTable_wrapper .dataTables_filter label {
+    margin-right: 10px;
+}
+
+
