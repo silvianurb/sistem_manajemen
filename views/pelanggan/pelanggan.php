@@ -51,10 +51,13 @@ session_start();
                                 <td><?php echo $row['kontak']; ?></td>
                                 <td><?php echo $row['no_rekening']; ?></td>
                                 <td>
-                                    <a href="edit.php?id=<?php echo $row['idpelanggan']; ?>"
-                                        class="btn btn-warning btn-sm">Edit</a>
-                                    <a href="delete.php?id=<?php echo $row['idpelanggan']; ?>"
-                                        class="btn btn-danger btn-sm">Hapus</a>
+                                    <a href="javascript:void(0);" class="btn btn-warning btn-sm editBtn"
+                                        data-id="<?php echo $row['idpelanggan']; ?>" data-nama="<?php echo $row['nama']; ?>"
+                                        data-alamat="<?php echo $row['alamat']; ?>"
+                                        data-kontak="<?php echo $row['kontak']; ?>"
+                                        data-no_rekening="<?php echo $row['no_rekening']; ?>">Edit</a>
+                                    <a href="javascript:void(0);" class="btn btn-danger btn-sm deleteBtn"
+                                        data-id="<?php echo $row['idpelanggan']; ?>">Hapus</a>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -92,6 +95,59 @@ session_start();
                         </div>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Data -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Data Pelanggan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
+                        <input type="hidden" id="editId" name="id">
+                        <div class="mb-3">
+                            <label for="editNama" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="editNama" name="nama" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editAlamat" class="form-label">Alamat</label>
+                            <input type="text" class="form-control" id="editAlamat" name="alamat" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editKontak" class="form-label">Kontak</label>
+                            <input type="text" class="form-control" id="editKontak" name="kontak" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editNoRekening" class="form-label">No Rekening</label>
+                            <input type="text" class="form-control" id="editNoRekening" name="no_rekening" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Konfirmasi Hapus -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah Anda yakin ingin menghapus data pelanggan ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <a id="deleteConfirmBtn" href="#" class="btn btn-danger">Hapus</a>
                 </div>
             </div>
         </div>
@@ -139,6 +195,90 @@ session_start();
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function () {
+            // Edit Button Click
+            $('.editBtn').click(function () {
+                // Ambil data dari atribut data-*
+                var id = $(this).data('id');
+                var nama = $(this).data('nama');
+                var alamat = $(this).data('alamat');
+                var kontak = $(this).data('kontak');
+                var no_rekening = $(this).data('no_rekening');
+
+                // Masukkan data ke dalam modal form
+                $('#editId').val(id);
+                $('#editNama').val(nama);
+                $('#editAlamat').val(alamat);
+                $('#editKontak').val(kontak);
+                $('#editNoRekening').val(no_rekening);
+
+                // Tampilkan modal edit
+                $('#editModal').modal('show');
+            });
+
+            $('#editForm').submit(function (e) {
+                e.preventDefault();
+
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    url: 'pelanggan/edit.php',
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        // Pesan sukses
+                        alert('Data berhasil diperbarui!');
+
+                        // Muat ulang tabel tanpa reload halaman
+                        $('#content-area').load('../views/pelanggan/pelanggan.php');
+                        $('#editModal').modal('hide');
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Data gagal diperbarui.");
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        // Script untuk menghapus data pelanggan
+        $(document).ready(function () {
+            // Delete Button Click
+            $('.deleteBtn').click(function () {
+                var id = $(this).data('id');
+                // Set link pada tombol konfirmasi untuk mengarah ke file delete.php dengan parameter id
+                $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
+                // Tampilkan modal konfirmasi
+                $('#deleteModal').modal('show');
+
+                // Konfirmasi penghapusan
+                $('#deleteConfirmBtn').click(function () {
+                    // Kirim permintaan AJAX untuk menghapus data
+                    $.ajax({
+                        url: 'pelanggan/delete.php?id=' + id,
+                        type: 'GET',
+                        success: function (response) {
+                            if (response.trim() == "success") {
+                                alert("Data berhasil dihapus!");
+                                $('#content-area').load('../views/pelanggan/pelanggan.php');
+                                $('#deleteModal').modal('hide');
+                            } else {
+                                alert("Gagal menghapus data.");
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert("Terjadi kesalahan saat menghapus data.");
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+
 
 </body>
 

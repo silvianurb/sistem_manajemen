@@ -1,21 +1,17 @@
-<!-- views/pelanggan/delete.php -->
 <?php
-session_start();
-include('../config/config.php');
+require_once('../../config/config.php');
 
-// Cek apakah pengguna sudah login dan memiliki role admin
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
-    header('Location: ../views/auth/login.php');
-    exit();
-}
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
 
-// Proses hapus data pelanggan
-$id = $_GET['id'];
-$query = "DELETE FROM pelanggan WHERE idpelanggan = '$id'";
-if (mysqli_query($bebas, $query)) {
-    header('Location: index.php');
-    exit();
+    $query = "DELETE FROM pelanggan WHERE idpelanggan = '$id'";
+
+    if (mysqli_query($conn, $query)) {
+        echo "success";
+    } else {
+        echo "error: " . mysqli_error($conn);
+    }
 } else {
-    echo "Error: " . mysqli_error($bebas);
+    echo "ID pelanggan tidak ditemukan.";
 }
 ?>
