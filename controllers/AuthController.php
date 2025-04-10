@@ -15,7 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Cek apakah user ditemukan
     if ($user) {
-        if ($password == $user['password']) {  // Bandingkan password secara langsung
+        // Verifikasi password menggunakan password_verify()
+        if (password_verify($password, $user['password'])) {
+            // Password benar, buat session untuk user
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
 

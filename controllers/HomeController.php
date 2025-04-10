@@ -20,11 +20,19 @@
         });
     });
 
+    // Script untuk menu "Bahan Baku"
+    $(document).ready(function () {
+        $('#menu-bahanbaku').click(function (e) {
+            e.preventDefault();
+            $('#content-area').load('../views/bahanbaku/bahanbaku.php');
+        });
+    });
+
     // Script untuk menu "Pengguna"
     $(document).ready(function () {
         $('#menu-pengguna').click(function (e) {
             e.preventDefault();
-            $('#content-area').load('../views/order/order.php');
+            $('#content-area').load('../views/pengguna/pengguna.php');
         });
     });
 </script>
