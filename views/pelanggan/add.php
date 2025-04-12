@@ -15,8 +15,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $query = "SELECT MAX(idpelanggan) AS max_id FROM pelanggan";
     $result = mysqli_query($conn, $query);
     $row = mysqli_fetch_assoc($result);
-    $max_id = $row['max_id'];
-    $next_id = 'PEL' . str_pad(substr($max_id, 3) + 1, 2, '0', STR_PAD_LEFT);
+
+    // Cek apakah max_id kosong
+    if ($row['max_id'] === NULL) {
+        // Jika tidak ada data di database, set ID pertama menjadi PEL01
+        $next_id = 'PEL01';
+    } else {
+        // Jika ada data, generate ID berikutnya
+        $max_id = $row['max_id'];
+        $next_id = 'PEL' . str_pad(substr($max_id, 3) + 1, 2, '0', STR_PAD_LEFT);
+    }
 
     // Simpan data ke database
     $query = "INSERT INTO pelanggan (idpelanggan, nama, alamat, kontak, no_rekening)

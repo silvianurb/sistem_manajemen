@@ -12,7 +12,6 @@ session_start();
 <body>
     <?php
     require_once('../../config/config.php');
-    // Query untuk mengambil data pengguna dari tabel users
     $query = "SELECT * FROM users";
     $result = mysqli_query($conn, $query);
     if (!$result) {
@@ -237,12 +236,12 @@ session_start();
                 var formData = $(this).serialize();
 
                 $.ajax({
-                    url: 'pengguna/add.php',  // Ubah URL sesuai lokasi file add.php
+                    url: 'pengguna/add.php',
                     type: 'POST',
                     data: formData,
                     success: function (response) {
                         $('#successAddModal').modal('show');
-                        $('#content-area').load('../views/pengguna/pengguna.php'); // Ubah sesuai dengan lokasi tampilan pengguna
+                        $('#content-area').load('../views/pengguna/pengguna.php');
                         $('#addModal').modal('hide');
                     },
                     error: function (xhr, status, error) {

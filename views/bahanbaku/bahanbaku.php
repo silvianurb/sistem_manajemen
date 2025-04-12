@@ -53,11 +53,11 @@ session_start();
                                     <?php
                                     $stok = $row['stok'];
                                     if ($stok > 50) {
-                                        echo '<button class="btn btn-success btn-sm">Tersedia</button>';
+                                        echo '<span class="badge bg-success text-light">Tersedia</span>';
                                     } elseif ($stok > 0 && $stok <= 50) {
-                                        echo '<button class="btn btn-primary btn-sm">Menipis</button>';
+                                        echo '<span class="badge bg-primary text-light">Menipis</span>';
                                     } else {
-                                        echo '<button class="btn btn-danger btn-sm">Habis</button>';
+                                        echo '<span class="badge bg-danger text-light">Habis</span>';
                                     }
                                     ?>
                                 </td>
