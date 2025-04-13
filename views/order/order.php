@@ -212,7 +212,7 @@ session_start();
                 </div>
                 <div class="modal-body">
                     <form id="editForm">
-                        
+
                         <div class="mb-3">
                             <label for="editIdOrder" class="form-label">ID Order</label>
                             <input type="text" class="form-control" id="editIdOrder" name="idOrder" readonly>
@@ -235,7 +235,7 @@ session_start();
                         <div class="mb-3">
                             <label for="editTanggalPesanan" class="form-label">Tanggal Pesanan</label>
                             <input type="date" class="form-control" id="editTanggalPesanan" name="tanggalPesanan"
-                                required>
+                                readonly>
                         </div>
                         <div class="mb-3">
                             <label for="editNamaBarang" class="form-label">Nama Barang</label>
@@ -286,6 +286,62 @@ session_start();
         </div>
     </div>
 
+    <!-- Modal Pesan Sukses Edit -->
+    <div class="modal fade" id="successEditModal" tabindex="-1" aria-labelledby="successEditModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successEditModalLabel">Sukses</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Data order berhasil diperbarui.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Konfirmasi Hapus -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah Anda yakin ingin menghapus data order ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <a id="deleteConfirmBtn" href="#" class="btn btn-danger">Hapus</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Pesan Sukses Penghapusan -->
+    <div class="modal fade" id="successDeleteModal" tabindex="-1" aria-labelledby="successDeleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successDeleteModalLabel">Sukses</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Data order berhasil dihapus.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
@@ -330,10 +386,12 @@ session_start();
                 var sisaKirim = $(this).data('sisakirim');
                 var status = $(this).data('status');
 
+                var formattedDate = new Date(tanggalPesanan).toISOString().split('T')[0];
+
                 // Populate modal with data
                 $('#editIdOrder').val(id);
                 $('#editNamaPelanggan').val(namaPelanggan);
-                $('#editTanggalPesanan').val(tanggalPesanan);
+                $('#editTanggalPesanan').val(formattedDate);  // Set formatted date
                 $('#editNamaBarang').val(namaBarang);
                 $('#editSizeS').val(sizeS);
                 $('#editSizeM').val(sizeM);
@@ -371,8 +429,26 @@ session_start();
             // Delete Order
             $('.deleteBtn').click(function () {
                 var id = $(this).data('id');
-                $('#deleteConfirmBtn').attr('href', 'order/delete.php?id=' + id);
+                $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
                 $('#deleteModal').modal('show');
+                $('#deleteConfirmBtn').click(function () {
+                    $.ajax({
+                        url: 'order/delete.php?id=' + id,
+                        type: 'GET',
+                        success: function (response) {
+                            if (response.trim() == "success") {
+                                $('#deleteModal').modal('hide');
+                                $('#successDeleteModal').modal('show');
+                                $('#content-area').load('../views/order/order.php');
+                            } else {
+                                alert("Gagal menghapus data.");
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert("Terjadi kesalahan saat menghapus data.");
+                        }
+                    });
+                });
             });
         });
     </script>

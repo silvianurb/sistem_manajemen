@@ -233,7 +233,7 @@ session_start();
 
                 if (document.getElementById("kontakError").style.display === "block") {
                     alert("Kontak harus berupa angka.");
-                    return; // Jangan lanjutkan jika ada error
+                    return;
                 }
 
                 var formData = $(this).serialize();
@@ -243,15 +243,11 @@ session_start();
                     type: 'POST',
                     data: formData,
                     success: function (response) {
-                        // Jika data berhasil ditambahkan
                         $('#successAddModal').modal('show');
-
-                        // Muat ulang tabel pelanggan tanpa memuat ulang seluruh halaman
                         $('#content-area').load('../views/pelanggan/pelanggan.php');
                         $('#addModal').modal('hide');
                     },
                     error: function (xhr, status, error) {
-                        // Jika data gagal ditambahkan
                         $('#failAddModal').modal('show');
                     }
                 });
@@ -262,9 +258,9 @@ session_start();
         function validateKontak() {
             var kontak = document.getElementById("kontak").value;
             if (!/^\d+$/.test(kontak)) { // Jika input bukan angka
-                document.getElementById("kontakError").style.display = "block"; // Menampilkan pesan kesalahan
+                document.getElementById("kontakError").style.display = "block"; 
             } else {
-                document.getElementById("kontakError").style.display = "none"; // Menyembunyikan pesan kesalahan jika input benar
+                document.getElementById("kontakError").style.display = "none";
             }
         }
     </script>
@@ -293,11 +289,9 @@ session_start();
 
             $('#editForm').submit(function (e) {
                 e.preventDefault();
-
-                // Cek jika input Kontak valid
                 if (document.getElementById("editKontakError").style.display === "block") {
                     alert("Kontak harus berupa angka.");
-                    return; // Jangan lanjutkan jika ada error
+                    return;
                 }
 
                 var formData = $(this).serialize();
@@ -333,27 +327,18 @@ session_start();
     <script>
         // Script untuk menghapus data pelanggan
         $(document).ready(function () {
-            // Delete Button Click
             $('.deleteBtn').click(function () {
                 var id = $(this).data('id');
-                // Set link pada tombol konfirmasi untuk mengarah ke file delete.php dengan parameter id
                 $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
-                // Tampilkan modal konfirmasi
                 $('#deleteModal').modal('show');
-
-                // Konfirmasi penghapusan
                 $('#deleteConfirmBtn').click(function () {
-                    // Kirim permintaan AJAX untuk menghapus data
                     $.ajax({
                         url: 'pelanggan/delete.php?id=' + id,
                         type: 'GET',
                         success: function (response) {
                             if (response.trim() == "success") {
-                                // Tampilkan modal sukses setelah penghapusan
                                 $('#deleteModal').modal('hide');
                                 $('#successDeleteModal').modal('show');
-
-                                // Muat ulang tabel tanpa reload halaman
                                 $('#content-area').load('../views/pelanggan/pelanggan.php');
                             } else {
                                 alert("Gagal menghapus data.");

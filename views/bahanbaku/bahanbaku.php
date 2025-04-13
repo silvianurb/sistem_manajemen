@@ -290,32 +290,21 @@ session_start();
                 });
             });
 
-            // Script untuk menghapus data bahan baku
+            // Hapus data
             $(document).ready(function () {
-                // Delete Button Click
                 $('.deleteBtn').click(function () {
                     var id = $(this).data('id');
-
-                    // Set link pada tombol konfirmasi untuk mengarah ke file delete.php dengan parameter id
                     $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
-
-                    // Tampilkan modal konfirmasi
                     $('#deleteModal').modal('show');
-
-                    // Konfirmasi penghapusan
                     $('#deleteConfirmBtn').click(function () {
-                        // Kirim permintaan AJAX untuk menghapus data
                         $.ajax({
-                            url: 'bahanbaku/delete.php?id=' + id,  // Ubah URL sesuai dengan lokasi file delete.php
+                            url: 'bahanbaku/delete.php?id=' + id, 
                             type: 'GET',
                             success: function (response) {
                                 if (response.trim() == "success") {
-                                    // Tampilkan modal sukses setelah penghapusan
                                     $('#deleteModal').modal('hide');
                                     $('#successDeleteModal').modal('show');
-
-                                    // Muat ulang tabel tanpa reload halaman
-                                    $('#content-area').load('../views/bahanbaku/bahanbaku.php'); // Ganti URL sesuai lokasi tabel bahanbaku
+                                    $('#content-area').load('../views/bahanbaku/bahanbaku.php');
                                 } else {
                                     alert("Gagal menghapus data.");
                                 }
