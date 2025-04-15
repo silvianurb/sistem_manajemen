@@ -116,6 +116,7 @@ session_start();
                 </div>
                 <div class="modal-body">
                     <form id="addForm">
+                        <input type="hidden" id="sisaKirimHidden" name="sisaKirim">
                         <div class="mb-3">
                             <label for="namaPelanggan" class="form-label">Nama Pelanggan</label>
                             <select class="form-control" id="namaPelanggan" name="namaPelanggan" required>
@@ -212,7 +213,6 @@ session_start();
                 </div>
                 <div class="modal-body">
                     <form id="editForm">
-
                         <div class="mb-3">
                             <label for="editIdOrder" class="form-label">ID Order</label>
                             <input type="text" class="form-control" id="editIdOrder" name="idOrder" readonly>
@@ -267,8 +267,7 @@ session_start();
                         </div>
                         <div class="mb-3">
                             <label for="editSisaKirim" class="form-label">Sisa Kirim</label>
-                            <input type="number" class="form-control" id="editSisaKirim" name="sisaKirim" required
-                                readonly>
+                            <input type="number" class="form-control" id="editSisaKirim" name="sisaKirim" required readonly>
                         </div>
                         <div class="mb-3">
                             <label for="editStatus" class="form-label">Status</label>
@@ -352,6 +351,38 @@ session_start();
         $(document).ready(function () {
             $('#dataTable').DataTable();
 
+            // Fungsi untuk menghitung sisa kirim pada form tambah order
+            function calculateSisaKirim() {
+                var sizeS = parseInt(document.getElementById('sizeS').value) || 0;
+                var sizeM = parseInt(document.getElementById('sizeM').value) || 0;
+                var sizeL = parseInt(document.getElementById('sizeL').value) || 0;
+                var sizeXL = parseInt(document.getElementById('sizeXL').value) || 0;
+                var sizeXXL = parseInt(document.getElementById('sizeXXL').value) || 0;
+
+                var sisaKirim = sizeS + sizeM + sizeL + sizeXL + sizeXXL;
+                document.getElementById('sisaKirim').value = sisaKirim;  // Menampilkan hasil di field Sisa Kirim
+                document.getElementById('sisaKirimHidden').value = sisaKirim;  // Mengisi input hidden dengan nilai yang dihitung
+            }
+
+            // Fungsi untuk menghitung sisa kirim pada modal edit
+            function calculateSisaKirimEdit() {
+                var sizeS = parseInt(document.getElementById('editSizeS').value) || 0;
+                var sizeM = parseInt(document.getElementById('editSizeM').value) || 0;
+                var sizeL = parseInt(document.getElementById('editSizeL').value) || 0;
+                var sizeXL = parseInt(document.getElementById('editSizeXL').value) || 0;
+                var sizeXXL = parseInt(document.getElementById('editSizeXXL').value) || 0;
+
+                var sisaKirim = sizeS + sizeM + sizeL + sizeXL + sizeXXL;
+                document.getElementById('editSisaKirim').value = sisaKirim;  // Menampilkan hasil di field Sisa Kirim pada modal edit
+            }
+
+            // Setiap kali ukuran berubah pada form tambah, hitung ulang Sisa Kirim
+            $('#sizeS, #sizeM, #sizeL, #sizeXL, #sizeXXL').on('input', calculateSisaKirim);
+
+            // Setiap kali ukuran berubah pada modal edit, hitung ulang Sisa Kirim
+            $('#editSizeS, #editSizeM, #editSizeL, #editSizeXL, #editSizeXXL').on('input', calculateSisaKirimEdit);
+
+
             // Tambah Order
             $('#addForm').submit(function (e) {
                 e.preventDefault();
@@ -401,14 +432,13 @@ session_start();
                 $('#editBahan').val(bahan);
                 $('#editSisaKirim').val(sisaKirim);
                 $('#editStatus').val(status);
-
+                calculateSisaKirimEdit();
                 $('#editModal').modal('show');
             });
 
             // Update Data
             $('#editForm').submit(function (e) {
                 e.preventDefault();
-
                 var formData = $(this).serialize();
 
                 $.ajax({
@@ -452,6 +482,7 @@ session_start();
             });
         });
     </script>
+
 
 </body>
 

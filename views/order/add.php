@@ -14,13 +14,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sisaKirim = $_POST['sisaKirim'];
     $status = $_POST['status'];
 
+    // Query untuk mendapatkan ID pesanan terakhir
     $query = "SELECT MAX(idOrder) AS max_id FROM pesanan";
     $result = mysqli_query($conn, $query);
     $row = mysqli_fetch_assoc($result);
     $max_id = $row['max_id'];
 
-    // Membuat ID baru dengan format ORD01, ORD02, dst
-    $next_id = 'ORD' . str_pad((substr($max_id, 3) + 1), 2, '0', STR_PAD_LEFT); 
+    // Jika MAX(idOrder) adalah NULL, berarti tabel kosong, maka mulai dari 'ORD01'
+    if ($max_id === NULL) {
+        $next_id = 'ORD01';
+    } else {
+        // Menambahkan angka 1 pada ID terakhir dan memastikan ID baru memiliki format 3 digit
+        $next_id = 'ORD' . str_pad((substr($max_id, 3) + 1), 2, '0', STR_PAD_LEFT);
+    }
 
     // Query untuk menambahkan data pesanan
     $query = "INSERT INTO pesanan (idOrder, namaPelanggan, tanggalPesanan, namaBarang, sizeS, sizeM, sizeL, sizeXL, sizeXXL, bahan, sisaKirim, status)
