@@ -20,6 +20,14 @@
         });
     });
 
+    // Script untuk menu "Surat Jalan"
+    $(document).ready(function () {
+        $('#menu-suratjalan').click(function (e) {
+            e.preventDefault();
+            $('#content-area').load('../views/suratjalan/suratjalan.php');
+        });
+    });
+
     // Script untuk menu "Bahan Baku"
     $(document).ready(function () {
         $('#menu-bahanbaku').click(function (e) {

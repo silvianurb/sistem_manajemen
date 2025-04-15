@@ -94,9 +94,26 @@ session_start();
                                         data-sizeXXL="<?php echo $row['sizeXXL']; ?>"
                                         data-bahan="<?php echo $row['bahan']; ?>"
                                         data-sisaKirim="<?php echo $row['sisaKirim']; ?>"
-                                        data-status="<?php echo $row['status']; ?>">Edit</a>
-                                    <a href="javascript:void(0);" class="btn btn-danger btn-sm deleteBtn"
-                                        data-id="<?php echo $row['idOrder']; ?>">Hapus</a>
+                                        data-status="<?php echo $row['status']; ?>">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+
+                                    <?php
+                                    // Cek apakah order sudah digunakan di suratjalan
+                                    $checkQuery = "SELECT COUNT(*) as total FROM suratjalan WHERE idOrder = '{$row['idOrder']}'";
+                                    $checkResult = mysqli_query($conn, $checkQuery);
+                                    $checkRow = mysqli_fetch_assoc($checkResult);
+                                    $relatedMessage = ($checkRow['total'] > 0) ? ' (Sudah Terdaftar Surat Jalan)' : ''; // Pesan jika berkaitan
+
+                                    if ($checkRow['total'] > 0) {
+                                        // Tombol Hapus dinonaktifkan jika berkaitan dengan surat jalan
+                                        echo '<button class="btn btn-danger btn-sm" disabled title="Tidak bisa dihapus karena sudah digunakan di Surat Jalan"><i class="fas fa-trash"></i> Hapus</button>';
+                                    } else {
+                                        echo '<a href="javascript:void(0);" class="btn btn-danger btn-sm deleteBtn" data-id="'.$row['idOrder'].'"><i class="fas fa-trash"></i> Hapus</a>';
+                                    }
+                                    ?>
+
+                                    <span class="small text-muted"><?php echo $relatedMessage; ?></span> <!-- Menampilkan pesan terkait -->
                                 </td>
                             </tr>
                         <?php } ?>
@@ -142,23 +159,23 @@ session_start();
                         </div>
                         <div class="mb-3">
                             <label for="sizeS" class="form-label">Size S</label>
-                            <input type="number" class="form-control" id="sizeS" name="sizeS">
+                            <input type="number" class="form-control" id="sizeS" name="sizeS" value="0">
                         </div>
                         <div class="mb-3">
                             <label for="sizeM" class="form-label">Size M</label>
-                            <input type="number" class="form-control" id="sizeM" name="sizeM">
+                            <input type="number" class="form-control" id="sizeM" name="sizeM" value="0">
                         </div>
                         <div class="mb-3">
                             <label for="sizeL" class="form-label">Size L</label>
-                            <input type="number" class="form-control" id="sizeL" name="sizeL">
+                            <input type="number" class="form-control" id="sizeL" name="sizeL" value="0">
                         </div>
                         <div class="mb-3">
                             <label for="sizeXL" class="form-label">Size XL</label>
-                            <input type="number" class="form-control" id="sizeXL" name="sizeXL">
+                            <input type="number" class="form-control" id="sizeXL" name="sizeXL" value="0">
                         </div>
                         <div class="mb-3">
                             <label for="sizeXXL" class="form-label">Size XXL</label>
-                            <input type="number" class="form-control" id="sizeXXL" name="sizeXXL">
+                            <input type="number" class="form-control" id="sizeXXL" name="sizeXXL" value="0">
                         </div>
                         <div class="mb-3">
                             <label for="bahan" class="form-label">Bahan</label>
@@ -167,6 +184,7 @@ session_start();
                         <div class="mb-3">
                             <label for="sisaKirim" class="form-label">Sisa Kirim</label>
                             <input type="number" class="form-control" id="sisaKirim" name="sisaKirim" required readonly>
+                            <!-- <input type="hidden" id="sisaKirimHidden" name="sisaKirim"> -->
                         </div>
                         <div class="mb-3">
                             <label for="status" class="form-label">Status</label>
@@ -267,7 +285,8 @@ session_start();
                         </div>
                         <div class="mb-3">
                             <label for="editSisaKirim" class="form-label">Sisa Kirim</label>
-                            <input type="number" class="form-control" id="editSisaKirim" name="sisaKirim" required readonly>
+                            <input type="number" class="form-control" id="editSisaKirim" name="sisaKirim" required
+                                readonly>
                         </div>
                         <div class="mb-3">
                             <label for="editStatus" class="form-label">Status</label>
@@ -360,8 +379,8 @@ session_start();
                 var sizeXXL = parseInt(document.getElementById('sizeXXL').value) || 0;
 
                 var sisaKirim = sizeS + sizeM + sizeL + sizeXL + sizeXXL;
-                document.getElementById('sisaKirim').value = sisaKirim;  // Menampilkan hasil di field Sisa Kirim
-                document.getElementById('sisaKirimHidden').value = sisaKirim;  // Mengisi input hidden dengan nilai yang dihitung
+                document.getElementById('sisaKirim').value = sisaKirim; 
+                document.getElementById('sisaKirimHidden').value = sisaKirim; 
             }
 
             // Fungsi untuk menghitung sisa kirim pada modal edit
@@ -373,7 +392,7 @@ session_start();
                 var sizeXXL = parseInt(document.getElementById('editSizeXXL').value) || 0;
 
                 var sisaKirim = sizeS + sizeM + sizeL + sizeXL + sizeXXL;
-                document.getElementById('editSisaKirim').value = sisaKirim;  // Menampilkan hasil di field Sisa Kirim pada modal edit
+                document.getElementById('editSisaKirim').value = sisaKirim; 
             }
 
             // Setiap kali ukuran berubah pada form tambah, hitung ulang Sisa Kirim

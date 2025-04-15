@@ -55,10 +55,14 @@ session_start();
                                     <a href="javascript:void(0);" class="btn btn-warning btn-sm editBtn"
                                         data-id="<?php echo $row['id']; ?>" data-username="<?php echo $row['username']; ?>"
                                         data-nama="<?php echo $row['namaUser']; ?>" data-role="<?php echo $row['role']; ?>"
-                                        data-password="<?php echo $row['password']; ?>" 
-                                        data-created_at="<?php echo $row['created_at']; ?>">Edit</a>
+                                        data-password="<?php echo $row['password']; ?>"
+                                        data-created_at="<?php echo $row['created_at']; ?>">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
                                     <a href="javascript:void(0);" class="btn btn-danger btn-sm deleteBtn"
-                                        data-id="<?php echo $row['id']; ?>">Hapus</a>
+                                        data-id="<?php echo $row['id']; ?>">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         <?php } ?>

@@ -55,9 +55,13 @@ session_start();
                                         data-id="<?php echo $row['idpelanggan']; ?>" data-nama="<?php echo $row['nama']; ?>"
                                         data-alamat="<?php echo $row['alamat']; ?>"
                                         data-kontak="<?php echo $row['kontak']; ?>"
-                                        data-no_rekening="<?php echo $row['no_rekening']; ?>">Edit</a>
+                                        data-no_rekening="<?php echo $row['no_rekening']; ?>">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
                                     <a href="javascript:void(0);" class="btn btn-danger btn-sm deleteBtn"
-                                        data-id="<?php echo $row['idpelanggan']; ?>">Hapus</a>
+                                        data-id="<?php echo $row['idpelanggan']; ?>">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -83,7 +87,7 @@ session_start();
                         </div>
                         <div class="mb-3">
                             <label for="alamat" class="form-label">Alamat</label>
-                            <input type="text" class="form-control" id="alamat" name="alamat" required>
+                            <textarea class="form-control" id="alamat" name="alamat" rows="3" required></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="kontak" class="form-label">Kontak</label>
@@ -120,7 +124,7 @@ session_start();
                         </div>
                         <div class="mb-3">
                             <label for="editAlamat" class="form-label">Alamat</label>
-                            <input type="text" class="form-control" id="editAlamat" name="alamat" required>
+                            <textarea type="text" class="form-control" id="editAlamat" name="alamat" required></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="editKontak" class="form-label">Kontak</label>
@@ -258,7 +262,7 @@ session_start();
         function validateKontak() {
             var kontak = document.getElementById("kontak").value;
             if (!/^\d+$/.test(kontak)) { // Jika input bukan angka
-                document.getElementById("kontakError").style.display = "block"; 
+                document.getElementById("kontakError").style.display = "block";
             } else {
                 document.getElementById("kontakError").style.display = "none";
             }

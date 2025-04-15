@@ -3,7 +3,7 @@ require_once('../../config/config.php');
 
 if (isset($_GET['id'])) {
     $idOrder = $_GET['id'];
-    $stmt = $conn->prepare("DELETE FROM pesanan WHERE idOrder = ?");
+    $stmt = $conn->prepare("DELETE FROM suratjalan WHERE idsuratjalan = ?");
     $stmt->bind_param("s", $idOrder);  
     if ($stmt->execute()) {
         echo "success";
@@ -11,5 +11,5 @@ if (isset($_GET['id'])) {
         echo "error: " . $stmt->error;
     }
 } else {
-    echo "ID order tidak ditemukan.";
+    echo "ID Surat Jalan tidak ditemukan.";
 }

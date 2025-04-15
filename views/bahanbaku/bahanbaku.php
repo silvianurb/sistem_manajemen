@@ -66,9 +66,13 @@ session_start();
                                     <a href="javascript:void(0);" class="btn btn-warning btn-sm editBtn"
                                         data-id="<?php echo $row['idBahanBaku']; ?>"
                                         data-nama="<?php echo $row['namaBahan']; ?>" data-stok="<?php echo $row['stok']; ?>"
-                                        data-satuan="<?php echo $row['satuan']; ?>">Edit</a>
+                                        data-satuan="<?php echo $row['satuan']; ?>">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
                                     <a href="javascript:void(0);" class="btn btn-danger btn-sm deleteBtn"
-                                        data-id="<?php echo $row['idBahanBaku']; ?>">Hapus</a>
+                                        data-id="<?php echo $row['idBahanBaku']; ?>">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -298,7 +302,7 @@ session_start();
                     $('#deleteModal').modal('show');
                     $('#deleteConfirmBtn').click(function () {
                         $.ajax({
-                            url: 'bahanbaku/delete.php?id=' + id, 
+                            url: 'bahanbaku/delete.php?id=' + id,
                             type: 'GET',
                             success: function (response) {
                                 if (response.trim() == "success") {
