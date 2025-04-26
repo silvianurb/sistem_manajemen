@@ -142,7 +142,7 @@ session_start();
                                 <option value="Rol" id="satuanRol">Rol</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                     </form>
                 </div>
             </div>

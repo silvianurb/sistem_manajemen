@@ -137,7 +137,7 @@ session_start();
                             <label for="editNoRekening" class="form-label">No Rekening</label>
                             <input type="text" class="form-control" id="editNoRekening" name="no_rekening" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                     </form>
                 </div>
             </div>

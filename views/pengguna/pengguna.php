@@ -140,7 +140,7 @@ session_start();
                                 <option value="manajer">Manajer</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                     </form>
                 </div>
             </div>

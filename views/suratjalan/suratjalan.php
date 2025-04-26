@@ -73,8 +73,19 @@ session_start();
                                         <i class="fas fa-print"></i>
                                     </a>
 
-                                    <a href="javascript:void(0);" class="btn btn-warning btn-sm"><i
-                                            class="fas fa-edit"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-warning btn-sm editBtn"
+                                        data-id="<?php echo $row['idsuratjalan']; ?>"
+                                        data-tanggal="<?php echo $row['tanggal_surat_jalan']; ?>"
+                                        data-size-s="<?php echo $row['size_s_kirim']; ?>"
+                                        data-size-m="<?php echo $row['size_m_kirim']; ?>"
+                                        data-size-l="<?php echo $row['size_l_kirim']; ?>"
+                                        data-size-xl="<?php echo $row['size_xl_kirim']; ?>"
+                                        data-size-xxl="<?php echo $row['size_xxl_kirim']; ?>"
+                                        data-status="<?php echo $row['status_pengiriman']; ?>">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+
+
                                     <a href="javascript:void(0);" class="btn btn-danger btn-sm deleteBtn"
                                         data-id="<?php echo $row['idsuratjalan']; ?>">
                                         <i class="fas fa-trash"></i>
@@ -234,11 +245,94 @@ session_start();
         </div>
     </div>
 
+    <!-- Modal Edit Surat Jalan -->
+    <div class="modal fade" id="editSuratJalanModal" tabindex="-1" aria-labelledby="editSuratJalanModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editSuratJalanModalLabel">Edit Surat Jalan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editSuratJalanForm">
+                        <input type="hidden" id="editIdSuratJalan" name="idSuratJalan">
+                        <div class="mb-3">
+                            <label for="editTanggalSuratJalan" class="form-label">Tanggal Surat Jalan</label>
+                            <input type="date" class="form-control" id="editTanggalSuratJalan" name="tanggalSuratJalan"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editSizeS" class="form-label">Size S yang Dikirim</label>
+                            <input type="number" class="form-control" id="editSizeS" name="sizeS" value="0" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editSizeM" class="form-label">Size M yang Dikirim</label>
+                            <input type="number" class="form-control" id="editSizeM" name="sizeM" value="0" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editSizeL" class="form-label">Size L yang Dikirim</label>
+                            <input type="number" class="form-control" id="editSizeL" name="sizeL" value="0" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editSizeXL" class="form-label">Size XL yang Dikirim</label>
+                            <input type="number" class="form-control" id="editSizeXL" name="sizeXL" value="0" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editSizeXXL" class="form-label">Size XXL yang Dikirim</label>
+                            <input type="number" class="form-control" id="editSizeXXL" name="sizeXXL" value="0"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editStatusPengiriman" class="form-label">Status Pengiriman</label>
+                            <select class="form-control" id="editStatusPengiriman" name="statusPengiriman" required>
+                                <option value="Dikirim">Dikirim</option>
+                                <option value="Terkirim">Terkirim</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Pesan Sukses Edit -->
+    <div class="modal fade" id="successEditModal" tabindex="-1" aria-labelledby="successEditModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successEditModalLabel">Sukses</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Data surat jalan berhasil diperbarui.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add DataTables Script Initialization -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         $(document).ready(function () {
+            $('#dataTable').DataTable();
             // Menampilkan data secara otomatis setelah pilih ID Order
             $('#idOrder').change(function () {
                 var idOrder = $(this).val();
@@ -327,38 +421,55 @@ session_start();
                 });
             });
 
-            // Menampilkan data untuk edit ketika tombol edit diklik
+            // Menangani klik tombol edit
             $('.editBtn').click(function () {
-                // Ambil data dari atribut data- di tombol
+                // Mengambil data dari atribut data- yang ada pada tombol edit
                 var idSuratJalan = $(this).data('id');
-                var idOrder = $(this).data('order');
-                var namaBarang = $(this).data('namaBarang');
-                var namaPelanggan = $(this).data('namaPelanggan');
-                var alamatPelanggan = $(this).data('alamatPelanggan');
-                var sizeS = $(this).data('sizeS');
-                var sizeM = $(this).data('sizeM');
-                var sizeL = $(this).data('sizeL');
-                var sizeXL = $(this).data('sizeXL');
-                var sizeXXL = $(this).data('sizeXXL');
-                var status = $(this).data('status');
+                var tanggalSuratJalan = $(this).data('tanggal');
+                var sizeS = $(this).data('size-s');
+                var sizeM = $(this).data('size-m');
+                var sizeL = $(this).data('size-l');
+                var sizeXL = $(this).data('size-xl');
+                var sizeXXL = $(this).data('size-xxl');
+                var statusPengiriman = $(this).data('status');
 
-                // Isi modal dengan data yang diambil
+                // Menyisipkan data yang diambil ke dalam modal
                 $('#editIdSuratJalan').val(idSuratJalan);
-                $('#editIdOrder').val(idOrder);
-                $('#editNamaBarang').val(namaBarang);
-                $('#editNamaPelanggan').val(namaPelanggan);
-                $('#editAlamatPelanggan').val(alamatPelanggan);
+                $('#editTanggalSuratJalan').val(tanggalSuratJalan);
                 $('#editSizeS').val(sizeS);
                 $('#editSizeM').val(sizeM);
                 $('#editSizeL').val(sizeL);
                 $('#editSizeXL').val(sizeXL);
                 $('#editSizeXXL').val(sizeXXL);
-                $('#editStatusPengiriman').val(status);
+                $('#editStatusPengiriman').val(statusPengiriman);
 
-                // Tampilkan modal edit
+                // Menampilkan modal untuk melakukan edit
                 $('#editSuratJalanModal').modal('show');
             });
 
+            // Menangani pengiriman form edit
+            $('#editSuratJalanForm').submit(function (e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    url: 'suratjalan/edit.php',
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        var data = JSON.parse(response);
+                        if (data.success) {
+                            $('#editSuratJalanModal').modal('hide');
+                            $('#successEditModal').modal('show');
+                            $('#content-area').load('../views/suratjalan/suratjalan.php');
+                        } else {
+                            alert('Terjadi kesalahan saat memperbarui data.');
+                        }
+                    },
+                    error: function () {
+                        alert("Terjadi kesalahan saat memperbarui data.");
+                    }
+                });
+            });
         });
     </script>
 
