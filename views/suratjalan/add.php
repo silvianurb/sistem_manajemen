@@ -8,11 +8,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $namaPelanggan = $_POST['namaPelanggan'];
     $namaBarang = $_POST['namaBarang'];
     $alamatPelanggan = $_POST['alamatPelanggan'];
-    $sizeS = $_POST['sizeS'];
-    $sizeM = $_POST['sizeM'];
-    $sizeL = $_POST['sizeL'];
-    $sizeXL = $_POST['sizeXL'];
-    $sizeXXL = $_POST['sizeXXL'];
+    
+    // Cek apakah sizeS, sizeM, sizeL, sizeXL, sizeXXL kosong, jika kosong set ke 0
+    $sizeS = isset($_POST['sizeS']) && !empty($_POST['sizeS']) ? $_POST['sizeS'] : 0;
+    $sizeM = isset($_POST['sizeM']) && !empty($_POST['sizeM']) ? $_POST['sizeM'] : 0;
+    $sizeL = isset($_POST['sizeL']) && !empty($_POST['sizeL']) ? $_POST['sizeL'] : 0;
+    $sizeXL = isset($_POST['sizeXL']) && !empty($_POST['sizeXL']) ? $_POST['sizeXL'] : 0;
+    $sizeXXL = isset($_POST['sizeXXL']) && !empty($_POST['sizeXXL']) ? $_POST['sizeXXL'] : 0;
+
     $status = $_POST['statusPengiriman'];
 
     // Generate ID Surat Jalan otomatis (misal: SJ01, SJ02, dst)

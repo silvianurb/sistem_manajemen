@@ -1,0 +1,47 @@
+<?php
+require_once '../../vendor/autoload.php';
+
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
+$dompdf = new Dompdf();
+
+if (isset($_GET['idSuratJalan'])) {
+    $idSuratJalan = $_GET['idSuratJalan'];
+
+    // Ambil data Surat Jalan dari database
+    require_once('../../config/config.php');
+    $query = "SELECT * FROM suratjalan WHERE idsuratjalan = '$idSuratJalan'";
+    $result = mysqli_query($conn, $query);
+    $data = mysqli_fetch_assoc($result);
+
+    // Generate HTML untuk PDF
+    $html = "
+    <h1>Surat Jalan</h1>
+    <p>ID Surat Jalan: " . $data['idsuratjalan'] . "</p>
+    <p>Nama Pelanggan: " . $data['nama_pelanggan'] . "</p>
+    <p>Nama Barang: " . $data['nama_barang'] . "</p>
+    <p>Status Pengiriman: " . $data['status_pengiriman'] . "</p>
+    ";
+
+    // Inisialisasi Dompdf
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml($html);
+    $dompdf->render();
+
+    // Output PDF to file
+    $output = $dompdf->output();
+    $pdfFile = '../../assets/uploads/generated_pdf_' . $idSuratJalan . '.pdf';
+    // file_put_contents($pdfFile, $output);
+
+    // Simpan PDF ke file
+    if (file_put_contents($pdfFile, $output)) {
+        echo "PDF berhasil disimpan.";
+    } else {
+        echo "Gagal menyimpan PDF.";
+    }
+
+    // Return the PDF URL to be used for preview
+    echo json_encode(['pdfUrl' => 'http://localhost/manajemen/assets/uploads/generated_pdf_' . $idSuratJalan . '.pdf']);
+}
+?>

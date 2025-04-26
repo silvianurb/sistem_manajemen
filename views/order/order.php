@@ -14,10 +14,10 @@ session_start();
     require_once('../../config/config.php');
     // Query untuk mengambil data pesanan dengan JOIN untuk mendapatkan nama pelanggan
     $query = "SELECT pesanan.idOrder, pesanan.namaPelanggan, pesanan.tanggalPesanan, pesanan.namaBarang, 
-                     pesanan.sizeS, pesanan.sizeM, pesanan.sizeL, pesanan.sizeXL, pesanan.sizeXXL, pesanan.bahan, 
-                     pesanan.sisaKirim, pesanan.status, pelanggan.nama
-              FROM pesanan
-              JOIN pelanggan ON pesanan.namaPelanggan = pelanggan.idpelanggan"; // JOIN tabel pesanan dengan pelanggan
+            pesanan.sizeS, pesanan.sizeM, pesanan.sizeL, pesanan.sizeXL, pesanan.sizeXXL, pesanan.bahan, 
+            pesanan.sisaKirim, pesanan.status
+            FROM pesanan
+            JOIN pelanggan ON pesanan.namaPelanggan = pelanggan.nama;"; // Mengambil hanya nama pelanggan
     $result = mysqli_query($conn, $query);
     if (!$result) {
         die("Query gagal: " . mysqli_error($conn));
@@ -57,7 +57,7 @@ session_start();
                         <?php while ($row = mysqli_fetch_assoc($result)) { ?>
                             <tr>
                                 <td><?php echo $row['idOrder']; ?></td>
-                                <td><?php echo $row['nama']; ?></td>
+                                <td><?php echo $row['namaPelanggan']; ?></td>
                                 <td><?php echo $row['tanggalPesanan']; ?></td>
                                 <td><?php echo $row['namaBarang']; ?></td>
                                 <td><?php echo $row['sizeS']; ?></td>
@@ -95,7 +95,7 @@ session_start();
                                         data-bahan="<?php echo $row['bahan']; ?>"
                                         data-sisaKirim="<?php echo $row['sisaKirim']; ?>"
                                         data-status="<?php echo $row['status']; ?>">
-                                        <i class="fas fa-edit"></i> Edit
+                                        <i class="fas fa-edit"></i>
                                     </a>
 
                                     <?php
@@ -104,16 +104,16 @@ session_start();
                                     $checkResult = mysqli_query($conn, $checkQuery);
                                     $checkRow = mysqli_fetch_assoc($checkResult);
                                     $relatedMessage = ($checkRow['total'] > 0) ? ' (Sudah Terdaftar Surat Jalan)' : ''; // Pesan jika berkaitan
-
+                                
                                     if ($checkRow['total'] > 0) {
                                         // Tombol Hapus dinonaktifkan jika berkaitan dengan surat jalan
-                                        echo '<button class="btn btn-danger btn-sm" disabled title="Tidak bisa dihapus karena sudah digunakan di Surat Jalan"><i class="fas fa-trash"></i> Hapus</button>';
+                                        echo '<button class="btn btn-danger btn-sm" disabled title="Tidak bisa dihapus karena sudah digunakan di Surat Jalan"><i class="fas fa-trash"></i></button>';
                                     } else {
-                                        echo '<a href="javascript:void(0);" class="btn btn-danger btn-sm deleteBtn" data-id="'.$row['idOrder'].'"><i class="fas fa-trash"></i> Hapus</a>';
+                                        echo '<a href="javascript:void(0);" class="btn btn-danger btn-sm deleteBtn" data-id="' . $row['idOrder'] . '"><i class="fas fa-trash"></i></a>';
                                     }
                                     ?>
 
-                                    <span class="small text-muted"><?php echo $relatedMessage; ?></span> <!-- Menampilkan pesan terkait -->
+                                    <span class="small text-muted"><?php echo $relatedMessage; ?></span>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -143,11 +143,12 @@ session_start();
                                 $query = "SELECT idpelanggan, nama FROM pelanggan";
                                 $result = mysqli_query($conn, $query);
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<option value='" . $row['idpelanggan'] . "'>" . $row['nama'] . "</option>";
+                                    echo "<option value='" . $row['nama'] . "'>" . $row['nama'] . "</option>"; // Mengubah value menjadi nama pelanggan
                                 }
                                 ?>
                             </select>
                         </div>
+
 
                         <div class="mb-3">
                             <label for="tanggalPesanan" class="form-label">Tanggal Pesanan</label>
@@ -379,8 +380,8 @@ session_start();
                 var sizeXXL = parseInt(document.getElementById('sizeXXL').value) || 0;
 
                 var sisaKirim = sizeS + sizeM + sizeL + sizeXL + sizeXXL;
-                document.getElementById('sisaKirim').value = sisaKirim; 
-                document.getElementById('sisaKirimHidden').value = sisaKirim; 
+                document.getElementById('sisaKirim').value = sisaKirim;
+                document.getElementById('sisaKirimHidden').value = sisaKirim;
             }
 
             // Fungsi untuk menghitung sisa kirim pada modal edit
@@ -392,7 +393,7 @@ session_start();
                 var sizeXXL = parseInt(document.getElementById('editSizeXXL').value) || 0;
 
                 var sisaKirim = sizeS + sizeM + sizeL + sizeXL + sizeXXL;
-                document.getElementById('editSisaKirim').value = sisaKirim; 
+                document.getElementById('editSisaKirim').value = sisaKirim;
             }
 
             // Setiap kali ukuran berubah pada form tambah, hitung ulang Sisa Kirim

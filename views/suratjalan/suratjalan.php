@@ -13,8 +13,11 @@ session_start();
     <?php
     require_once('../../config/config.php');
 
+    // Update query untuk menambahkan data ukuran
     $query = "SELECT suratjalan.idsuratjalan, suratjalan.idOrder, suratjalan.tanggal_surat_jalan, 
-                 suratjalan.nama_pelanggan, suratjalan.nama_barang, suratjalan.status_pengiriman
+                 suratjalan.nama_pelanggan, suratjalan.nama_barang, suratjalan.status_pengiriman,
+                 suratjalan.size_s_kirim, suratjalan.size_m_kirim, suratjalan.size_l_kirim, 
+                 suratjalan.size_xl_kirim, suratjalan.size_xxl_kirim
           FROM suratjalan"; // Ambil data dari tabel suratjalan
     $result = mysqli_query($conn, $query);
     if (!$result) {
@@ -27,7 +30,6 @@ session_start();
             <h6 class="m-0 font-weight-bold text-primary">Tabel Surat Jalan</h6>
         </div>
         <div class="card-body">
-            <!-- Tambah Surat Jalan Button placed here -->
             <div class="mb-3">
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#suratJalanModal">Tambah Surat
                     Jalan</button>
@@ -42,6 +44,11 @@ session_start();
                             <th>Tanggal Surat Jalan</th>
                             <th>Nama Pelanggan</th>
                             <th>Nama Barang</th>
+                            <th>S</th>
+                            <th>M</th>
+                            <th>L</th>
+                            <th>XL</th>
+                            <th>XXL</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -54,9 +61,20 @@ session_start();
                                 <td><?php echo $row['tanggal_surat_jalan']; ?></td>
                                 <td><?php echo $row['nama_pelanggan']; ?></td>
                                 <td><?php echo $row['nama_barang']; ?></td>
+                                <td><?php echo $row['size_s_kirim']; ?></td>
+                                <td><?php echo $row['size_m_kirim']; ?></td>
+                                <td><?php echo $row['size_l_kirim']; ?></td>
+                                <td><?php echo $row['size_xl_kirim']; ?></td>
+                                <td><?php echo $row['size_xxl_kirim']; ?></td>
                                 <td><?php echo $row['status_pengiriman']; ?></td>
                                 <td>
-                                    <a href="javascript:void(0);" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm printBtn"
+                                        data-id="<?php echo $row['idsuratjalan']; ?>">
+                                        <i class="fas fa-print"></i>
+                                    </a>
+
+                                    <a href="javascript:void(0);" class="btn btn-warning btn-sm"><i
+                                            class="fas fa-edit"></i></a>
                                     <a href="javascript:void(0);" class="btn btn-danger btn-sm deleteBtn"
                                         data-id="<?php echo $row['idsuratjalan']; ?>">
                                         <i class="fas fa-trash"></i>
@@ -121,27 +139,27 @@ session_start();
 
                         <div class="mb-3">
                             <label for="sizeS" class="form-label">Size S yang Dikirim</label>
-                            <input type="number" class="form-control" id="sizeS" name="sizeS">
+                            <input type="number" class="form-control" id="sizeS" name="sizeS" value="0">
                         </div>
 
                         <div class="mb-3">
                             <label for="sizeM" class="form-label">Size M yang Dikirim</label>
-                            <input type="number" class="form-control" id="sizeM" name="sizeM">
+                            <input type="number" class="form-control" id="sizeM" name="sizeM" value="0">
                         </div>
 
                         <div class="mb-3">
                             <label for="sizeL" class="form-label">Size L yang Dikirim</label>
-                            <input type="number" class="form-control" id="sizeL" name="sizeL">
+                            <input type="number" class="form-control" id="sizeL" name="sizeL" value="0">
                         </div>
 
                         <div class="mb-3">
                             <label for="sizeXL" class="form-label">Size XL yang Dikirim</label>
-                            <input type="number" class="form-control" id="sizeXL" name="sizeXL">
+                            <input type="number" class="form-control" id="sizeXL" name="sizeXL" value="0">
                         </div>
 
                         <div class="mb-3">
                             <label for="sizeXXL" class="form-label">Size XXL yang Dikirim</label>
-                            <input type="number" class="form-control" id="sizeXXL" name="sizeXXL">
+                            <input type="number" class="form-control" id="sizeXXL" name="sizeXXL" value="0">
                         </div>
 
                         <div class="mb-3">
@@ -230,14 +248,13 @@ session_start();
                         type: 'GET',
                         data: { idOrder: idOrder },
                         success: function (response) {
-                            console.log(response); // Debug: Lihat apa yang diterima dari response
+                            console.log(response);
                             var data = JSON.parse(response);
                             if (data.error) {
                                 alert(data.error);
                             } else {
                                 $('#namaBarang').val(data.namaBarang);
                                 $('#namaPelanggan').val(data.namaPelanggan);
-                                // Alamat tidak diisi otomatis, hanya input manual
                             }
                         },
                         error: function () {
@@ -250,8 +267,8 @@ session_start();
             // Simpan Surat Jalan
             $('#suratJalanForm').submit(function (e) {
                 e.preventDefault();
-                var formData = $(this).serialize(); 
-                console.log(formData); 
+                var formData = $(this).serialize();
+                console.log(formData);
                 $.ajax({
                     url: 'suratjalan/add.php',
                     type: 'POST',
@@ -292,9 +309,58 @@ session_start();
                     });
                 });
             });
+
+            // Menangani klik tombol cetak
+            $('.printBtn').click(function () {
+                var idSuratJalan = $(this).data('id');
+                $.ajax({
+                    url: 'suratjalan/cetak_pdf.php',
+                    type: 'GET',
+                    data: { id: idSuratJalan },
+                    success: function (response) {
+                        var fileURL = response;
+                        window.open(fileURL, '_blank');
+                    },
+                    error: function () {
+                        alert("Terjadi kesalahan saat mencetak PDF.");
+                    }
+                });
+            });
+
+            // Menampilkan data untuk edit ketika tombol edit diklik
+            $('.editBtn').click(function () {
+                // Ambil data dari atribut data- di tombol
+                var idSuratJalan = $(this).data('id');
+                var idOrder = $(this).data('order');
+                var namaBarang = $(this).data('namaBarang');
+                var namaPelanggan = $(this).data('namaPelanggan');
+                var alamatPelanggan = $(this).data('alamatPelanggan');
+                var sizeS = $(this).data('sizeS');
+                var sizeM = $(this).data('sizeM');
+                var sizeL = $(this).data('sizeL');
+                var sizeXL = $(this).data('sizeXL');
+                var sizeXXL = $(this).data('sizeXXL');
+                var status = $(this).data('status');
+
+                // Isi modal dengan data yang diambil
+                $('#editIdSuratJalan').val(idSuratJalan);
+                $('#editIdOrder').val(idOrder);
+                $('#editNamaBarang').val(namaBarang);
+                $('#editNamaPelanggan').val(namaPelanggan);
+                $('#editAlamatPelanggan').val(alamatPelanggan);
+                $('#editSizeS').val(sizeS);
+                $('#editSizeM').val(sizeM);
+                $('#editSizeL').val(sizeL);
+                $('#editSizeXL').val(sizeXL);
+                $('#editSizeXXL').val(sizeXXL);
+                $('#editStatusPengiriman').val(status);
+
+                // Tampilkan modal edit
+                $('#editSuratJalanModal').modal('show');
+            });
+
         });
     </script>
-
 
 </body>
 
