@@ -28,6 +28,14 @@
         });
     });
 
+    // Script untuk menu "Invoice"
+    $(document).ready(function () {
+        $('#menu-invoice').click(function (e) {
+            e.preventDefault();
+            $('#content-area').load('../views/invoice/invoice.php');
+        });
+    });
+
     // Script untuk menu "Bahan Baku"
     $(document).ready(function () {
         $('#menu-bahanbaku').click(function (e) {

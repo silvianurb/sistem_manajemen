@@ -124,7 +124,8 @@ session_start();
                         </div>
                         <div class="mb-3">
                             <label for="editAlamat" class="form-label">Alamat</label>
-                            <textarea type="text" class="form-control" id="editAlamat" name="alamat" required></textarea>
+                            <textarea type="text" class="form-control" id="editAlamat" name="alamat"
+                                required></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="editKontak" class="form-label">Kontak</label>
@@ -231,10 +232,14 @@ session_start();
 
     <script>
         $(document).ready(function () {
+            // DataTable Initialization
             $('#dataTable').DataTable();
+
+            // Add Form Submit
             $('#addForm').submit(function (e) {
                 e.preventDefault();
 
+                // Validasi untuk kontak
                 if (document.getElementById("kontakError").style.display === "block") {
                     alert("Kontak harus berupa angka.");
                     return;
@@ -256,21 +261,7 @@ session_start();
                     }
                 });
             });
-        });
 
-        // Fungsi validasi untuk kolom "Kontak" di form tambah
-        function validateKontak() {
-            var kontak = document.getElementById("kontak").value;
-            if (!/^\d+$/.test(kontak)) { // Jika input bukan angka
-                document.getElementById("kontakError").style.display = "block";
-            } else {
-                document.getElementById("kontakError").style.display = "none";
-            }
-        }
-    </script>
-
-    <script>
-        $(document).ready(function () {
             // Edit Button Click
             $('.editBtn').click(function () {
                 // Ambil data dari atribut data-*
@@ -291,8 +282,11 @@ session_start();
                 $('#editModal').modal('show');
             });
 
+            // Edit Form Submit
             $('#editForm').submit(function (e) {
                 e.preventDefault();
+
+                // Validasi untuk kontak
                 if (document.getElementById("editKontakError").style.display === "block") {
                     alert("Kontak harus berupa angka.");
                     return;
@@ -314,23 +308,8 @@ session_start();
                     }
                 });
             });
-        });
 
-        // Fungsi validasi untuk kolom "Kontak" di form edit
-        function validateKontakEdit() {
-            var kontak = document.getElementById("editKontak").value;
-            if (!/^\d+$/.test(kontak)) { // Jika input bukan angka
-                document.getElementById("editKontakError").style.display = "block"; // Menampilkan pesan kesalahan
-            } else {
-                document.getElementById("editKontakError").style.display = "none"; // Menyembunyikan pesan kesalahan jika input benar
-            }
-        }
-
-    </script>
-
-    <script>
-        // Script untuk menghapus data pelanggan
-        $(document).ready(function () {
+            // Delete Data
             $('.deleteBtn').click(function () {
                 var id = $(this).data('id');
                 $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
@@ -355,6 +334,26 @@ session_start();
                 });
             });
         });
+
+        // Fungsi validasi untuk kolom "Kontak" di form tambah
+        function validateKontak() {
+            var kontak = document.getElementById("kontak").value;
+            if (!/^\d+$/.test(kontak)) { // Jika input bukan angka
+                document.getElementById("kontakError").style.display = "block";
+            } else {
+                document.getElementById("kontakError").style.display = "none";
+            }
+        }
+
+        // Fungsi validasi untuk kolom "Kontak" di form edit
+        function validateKontakEdit() {
+            var kontak = document.getElementById("editKontak").value;
+            if (!/^\d+$/.test(kontak)) { // Jika input bukan angka
+                document.getElementById("editKontakError").style.display = "block"; // Menampilkan pesan kesalahan
+            } else {
+                document.getElementById("editKontakError").style.display = "none"; // Menyembunyikan pesan kesalahan jika input benar
+            }
+        }
     </script>
 
 </body>
