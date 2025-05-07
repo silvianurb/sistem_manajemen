@@ -20,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Password benar, buat session untuk user
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
+            $_SESSION['namaUser'] = $user['namaUser'];
 
             // Redirect ke halaman dashboard setelah login berhasil
             header('Location: ../views/dashboard.php');

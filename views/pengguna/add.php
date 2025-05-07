@@ -7,8 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password']; 
     $role = $_POST['role'];
 
-    // Hash password sebelum disimpan
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+     // Hash password sebelum disimpan, memotong hasil hash
+     $hashedPassword = substr(password_hash($password, PASSWORD_DEFAULT), 0, 30); // Mengambil 30 karakter pertama dari hash
 
     $created_at = date('Y-m-d H:i:s');
 

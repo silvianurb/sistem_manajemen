@@ -9,7 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password']; 
     $role = $_POST['role'];
 
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    // Hash password sebelum disimpan, memotong hasil hash
+    $hashedPassword = substr(password_hash($password, PASSWORD_DEFAULT), 0, 30);
     $updated_at = date('Y-m-d H:i:s');
 
     $query = "UPDATE users SET username = '$username', namaUser = '$namaUser', password = '$hashedPassword', role = '$role', created_at = '$updated_at' WHERE id = '$id'";

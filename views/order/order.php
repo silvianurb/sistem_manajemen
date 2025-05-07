@@ -97,23 +97,10 @@ session_start();
                                         data-status="<?php echo $row['status']; ?>">
                                         <i class="fas fa-edit"></i>
                                     </a>
-
-                                    <?php
-                                    // Cek apakah order sudah digunakan di suratjalan
-                                    $checkQuery = "SELECT COUNT(*) as total FROM suratjalan WHERE idOrder = '{$row['idOrder']}'";
-                                    $checkResult = mysqli_query($conn, $checkQuery);
-                                    $checkRow = mysqli_fetch_assoc($checkResult);
-                                    $relatedMessage = ($checkRow['total'] > 0) ? ' (Sudah Terdaftar Surat Jalan)' : ''; // Pesan jika berkaitan
-                                
-                                    if ($checkRow['total'] > 0) {
-                                        // Tombol Hapus dinonaktifkan jika berkaitan dengan surat jalan
-                                        echo '<button class="btn btn-danger btn-sm" disabled title="Tidak bisa dihapus karena sudah digunakan di Surat Jalan"><i class="fas fa-trash"></i></button>';
-                                    } else {
-                                        echo '<a href="javascript:void(0);" class="btn btn-danger btn-sm deleteBtn" data-id="' . $row['idOrder'] . '"><i class="fas fa-trash"></i></a>';
-                                    }
-                                    ?>
-
-                                    <span class="small text-muted"><?php echo $relatedMessage; ?></span>
+                                    <a href="javascript:void(0);" class="btn btn-danger btn-sm deleteBtn"
+                                        data-id="<?php echo $row['idOrder']; ?>">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -242,13 +229,15 @@ session_start();
                             <label for="editNamaPelanggan" class="form-label">Nama Pelanggan</label>
                             <select class="form-control" id="editNamaPelanggan" name="namaPelanggan" required>
                                 <?php
+                                // Ambil daftar nama pelanggan dari tabel pelanggan
                                 require_once('../../config/config.php');
                                 $query = "SELECT idpelanggan, nama FROM pelanggan";
                                 $result = mysqli_query($conn, $query);
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<option value='" . $row['idpelanggan'] . "'>" . $row['nama'] . "</option>";
+                                    echo "<option value='" . $row['nama'] . "'>" . $row['nama'] . "</option>"; 
                                 }
                                 ?>
+
                             </select>
                         </div>
                         <div class="mb-3">
@@ -442,7 +431,7 @@ session_start();
                 // Populate modal with data
                 $('#editIdOrder').val(id);
                 $('#editNamaPelanggan').val(namaPelanggan);
-                $('#editTanggalPesanan').val(formattedDate);  // Set formatted date
+                $('#editTanggalPesanan').val(formattedDate);
                 $('#editNamaBarang').val(namaBarang);
                 $('#editSizeS').val(sizeS);
                 $('#editSizeM').val(sizeM);
@@ -460,17 +449,19 @@ session_start();
             $('#editForm').submit(function (e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-
+                console.log(formData);
                 $.ajax({
                     url: 'order/edit.php',
                     type: 'POST',
                     data: formData,
                     success: function (response) {
+                        console.log(response);  // Cek response dari server
                         $('#successEditModal').modal('show');
                         $('#content-area').load('../views/order/order.php');
                         $('#editModal').modal('hide');
                     },
                     error: function (xhr, status, error) {
+                        console.log('Error:', error);  // Log error jika ada masalah
                         alert("Data gagal diperbarui.");
                     }
                 });

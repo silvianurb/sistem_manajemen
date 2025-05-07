@@ -1,10 +1,9 @@
 <?php
-require_once '../../vendor/autoload.php'; // Sesuaikan dengan lokasi Dompdf
+require_once '../../vendor/autoload.php';
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-// Membuat instance Dompdf
 $dompdf = new Dompdf();
 
 if (isset($_GET['id'])) {
@@ -16,23 +15,21 @@ if (isset($_GET['id'])) {
     $result = mysqli_query($conn, $query);
 
     if ($data = mysqli_fetch_assoc($result)) {
-        // Ambil nama pelanggan berdasarkan id pelanggan
-        $nama_pelanggan = $data['nama_pelanggan']; // Ambil nama pelanggan dari data surat jalan
-        $alamat_pelanggan = $data['alamat_pelanggan']; // Menambahkan alamat tujuan
+        $nama_pelanggan = $data['nama_pelanggan']; 
+        $alamat_pelanggan = $data['alamat_pelanggan']; 
 
         // Hitung Total berdasarkan size S, M, L, XL, XXL
         $total = $data['size_s_kirim'] + $data['size_m_kirim'] + $data['size_l_kirim'] + $data['size_xl_kirim'] + $data['size_xxl_kirim'];
 
-        // Generate HTML untuk PDF dengan layout baru
         $html = "
         <html>
             <head>
                 <style>
-                    body { font-family: Arial, sans-serif; line-height: 1.4; } /* Mengurangi line height untuk rapat */
+                    body { font-family: Arial, sans-serif; line-height: 1.4; }
                     h1 { text-align: center; font-size: 24px; font-weight: bold; }
                     .container { width: 100%; margin: 0 auto; }
                     .header { display: flex; justify-content: space-between; }
-                    .header div { width: 48%; } /* Menyebar 'From' dan 'To' */
+                    .header div { width: 48%; }
                     .table { width: 100%; border-collapse: collapse; margin-top: 20px; }
                     .table th, .table td { border: 1px solid #000; padding: 8px; text-align: center; }
                     .table th { background-color: #3c8dbc; color: white; }
@@ -45,10 +42,10 @@ if (isset($_GET['id'])) {
                 <div class='container'>
                     <div class='header'>
                         <div>
-                            <p><strong>From:</strong><br> MICROZIDE MANUFACTURE</p>
+                            <p><strong>Dari:</strong><br> MICROZIDE MANUFACTURE</p>
                         </div>
                         <div>
-                            <p><strong>To:</strong><br> $nama_pelanggan</p> <!-- Nama Pelanggan yang diambil dari database -->
+                            <p><strong>Kepada:</strong><br> $nama_pelanggan</p> <!-- Nama Pelanggan yang diambil dari database -->
                         </div>
                     </div>
 
@@ -59,7 +56,7 @@ if (isset($_GET['id'])) {
                             <p><strong>No. Ref. :</strong> " . $data['idsuratjalan'] . "</p>
                         </div>
                         <div>
-                            <p><strong>Date :</strong> " . date('d F Y') . "</p>
+                            <p><strong>Tanggal :</strong> " . date('d F Y') . "</p>
                         </div>
                     </div>
 
@@ -69,7 +66,7 @@ if (isset($_GET['id'])) {
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>BARANG</th>
+                                <th>Barang</th>
                                 <th>S</th>
                                 <th>M</th>
                                 <th>L</th>
@@ -105,7 +102,7 @@ if (isset($_GET['id'])) {
 
         // Load HTML ke Dompdf
         $dompdf->loadHtml($html);
-        $dompdf->setPaper('A5', 'landscape'); // Mengatur kertas A4 Landscape
+        $dompdf->setPaper('A5', 'landscape');
 
         // Render PDF
         $dompdf->render();

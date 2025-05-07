@@ -128,7 +128,6 @@ if (!$result) {
                             </select>
                         </div>
 
-
                         <!-- Nama Pelanggan -->
                         <div class="mb-3">
                             <label for="namaPelanggan" class="form-label">Nama Pelanggan</label>
@@ -416,7 +415,7 @@ if (!$result) {
 
     <!-- Modal Pesan Sukses Edit -->
     <div class="modal fade" id="successEditModal" tabindex="-1" aria-labelledby="successEditModalLabel"
-        aria-hidden="true"6>
+        aria-hidden="true" 6>
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -607,33 +606,55 @@ if (!$result) {
 
             // **Delete Invoice** - Menambahkan Konfirmasi Hapus
             $('.deleteBtn').click(function () {
-                var id = $(this).data('id'); // Ambil ID invoice dari data-id
-                $('#deleteConfirmBtn').attr('href', 'javascript:void(0);'); // Set href ke javascript:void(0)
-                $('#deleteModal').modal('show'); // Tampilkan modal konfirmasi hapus
+                var id = $(this).data('id');
+                $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
+                $('#deleteModal').modal('show');
 
-                // Ketika tombol konfirmasi di klik
                 $('#deleteConfirmBtn').click(function () {
                     $.ajax({
-                        url: 'invoice/delete.php', // URL untuk delete.php
-                        type: 'GET', // Menggunakan GET untuk mengirim ID
-                        data: { idInvoice: id }, // Kirimkan ID invoice untuk dihapus
+                        url: 'invoice/delete.php',
+                        type: 'GET',
+                        data: { idInvoice: id },
                         success: function (response) {
                             if (response.trim() == "success") {
-                                $('#deleteModal').modal('hide'); // Sembunyikan modal konfirmasi
-                                $('#successDeleteModal').modal('show'); // Tampilkan modal sukses hapus
+                                $('#deleteModal').modal('hide');
+                                $('#successDeleteModal').modal('show');
                                 setTimeout(function () {
-                                    $('#content-area').load('../views/invoice/invoice.php'); // Load ulang tabel invoice
-                                }, 2000); // Tunggu 2 detik untuk refresh
+                                    $('#content-area').load('../views/invoice/invoice.php');
+                                }, 2000);
                             } else {
-                                alert("Gagal menghapus data."); // Tampilkan pesan error jika gagal
+                                alert("Gagal menghapus data.");
                             }
                         },
                         error: function (xhr, status, error) {
-                            alert("Terjadi kesalahan saat menghapus data."); // Tampilkan pesan error jika terjadi masalah saat AJAX
+                            alert("Terjadi kesalahan saat menghapus data.");
                         }
                     });
                 });
             });
+
+            // Menangani klik tombol cetak
+            $('.printBtn').click(function () {
+                var idInvoice = $(this).data('id');
+                $.ajax({
+                    url: 'invoice/cetak_pdf.php',
+                    type: 'GET',
+                    data: { idInvoice: idInvoice },
+                    success: function (response) {
+                        console.log(response);  // Debugging untuk melihat response
+                        var fileURL = response.trim(); // Mengambil URL PDF
+                        if (fileURL) {
+                            window.open(fileURL, '_blank'); // Buka PDF di tab baru
+                        } else {
+                            alert("PDF tidak ditemukan.");
+                        }
+                    },
+                    error: function () {
+                        alert("Terjadi kesalahan saat mencetak PDF.");
+                    }
+                });
+            });
+
         });
     </script>
 
