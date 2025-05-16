@@ -18,11 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $oldData = mysqli_fetch_assoc($resultOld);
 
     // Hitung selisih size
-    $diffSizeS = $sizeS - $oldData['size_s_kirim'];
-    $diffSizeM = $sizeM - $oldData['size_m_kirim'];
-    $diffSizeL = $sizeL - $oldData['size_l_kirim'];
-    $diffSizeXL = $sizeXL - $oldData['size_xl_kirim'];
-    $diffSizeXXL = $sizeXXL - $oldData['size_xxl_kirim'];
+    $SizeS = $sizeS - $oldData['size_s_kirim'];
+    $SizeM = $sizeM - $oldData['size_m_kirim'];
+    $SizeL = $sizeL - $oldData['size_l_kirim'];
+    $SizeXL = $sizeXL - $oldData['size_xl_kirim'];
+    $SizeXXL = $sizeXXL - $oldData['size_xxl_kirim'];
 
     // Query untuk memperbarui data Surat Jalan di database
     $query = "UPDATE suratjalan 

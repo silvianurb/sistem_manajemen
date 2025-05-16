@@ -97,6 +97,7 @@ session_start();
                                         data-status="<?php echo $row['status']; ?>">
                                         <i class="fas fa-edit"></i>
                                     </a>
+
                                     <a href="javascript:void(0);" class="btn btn-danger btn-sm deleteBtn"
                                         data-id="<?php echo $row['idOrder']; ?>">
                                         <i class="fas fa-trash"></i>
@@ -234,7 +235,7 @@ session_start();
                                 $query = "SELECT idpelanggan, nama FROM pelanggan";
                                 $result = mysqli_query($conn, $query);
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<option value='" . $row['nama'] . "'>" . $row['nama'] . "</option>"; 
+                                    echo "<option value='" . $row['nama'] . "'>" . $row['nama'] . "</option>";
                                 }
                                 ?>
 
@@ -428,7 +429,7 @@ session_start();
 
                 var formattedDate = new Date(tanggalPesanan).toISOString().split('T')[0];
 
-                // Populate modal with data
+                // Populate modal fields with data
                 $('#editIdOrder').val(id);
                 $('#editNamaPelanggan').val(namaPelanggan);
                 $('#editTanggalPesanan').val(formattedDate);
@@ -441,7 +442,11 @@ session_start();
                 $('#editBahan').val(bahan);
                 $('#editSisaKirim').val(sisaKirim);
                 $('#editStatus').val(status);
+
+                // Ensure sisa kirim is recalculated if needed
                 calculateSisaKirimEdit();
+
+                // Show the modal
                 $('#editModal').modal('show');
             });
 
@@ -449,7 +454,7 @@ session_start();
             $('#editForm').submit(function (e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-                console.log(formData);
+                console.log("Form Data being sent: ", formData); 
                 $.ajax({
                     url: 'order/edit.php',
                     type: 'POST',

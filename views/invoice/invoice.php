@@ -51,7 +51,7 @@ if (!$result) {
                                 <td><?php echo $row['idSuratJalan']; ?></td>
                                 <td><?php echo $row['nama_pelanggan']; ?></td>
                                 <td><?php echo $row['nama_barang']; ?></td>
-                                <td><?php echo number_format($row['total_bayar'], 2); ?></td>
+                               <td><?php echo "Rp " . number_format($row['total_bayar'], 0, ',', '.'); ?></td>
                                 <td>
                                     <a href="javascript:void(0);" class="btn btn-primary btn-sm printBtn"
                                         data-id="<?php echo $row['idInvoice']; ?>">
@@ -531,6 +531,32 @@ if (!$result) {
                         }
                     });
                 }
+            });
+
+            //fungsi tanbah
+            $('#invoiceForm').submit(function (e) {
+                e.preventDefault(); // Prevent default form submission
+
+                var formData = $(this).serialize(); // Serialize form data
+
+                $.ajax({
+                    url: 'invoice/add.php', // PHP script to handle data insertion
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        console.log(response); // Debugging to check the response
+                        if (response.trim() === "success") {
+                            $('#successAddModal').modal('show'); // Show success modal
+                            $('#invoiceModal').modal('hide'); // Hide the add invoice modal
+                            $('#content-area').load('../views/invoice/invoice.php');
+                        } else {
+                            alert('Gagal menyimpan data: ' + response); // Handle error
+                        }
+                    },
+                    error: function () {
+                        alert('Terjadi kesalahan saat menyimpan data.'); // Handle AJAX error
+                    }
+                });
             });
 
             // Fungsi untuk mengedit data invoice

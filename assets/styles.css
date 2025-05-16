@@ -19,6 +19,7 @@
     align-items: center;
     justify-content: flex-end;
     margin-top: -5px;
+    width: 50%; /* This ensures the search bar is aligned right */
 }
 
 /* Atur tampilan select agar lebih kecil */
@@ -46,4 +47,3 @@
 #dataTable_wrapper .dataTables_filter label {
     margin-right: 10px;
 }
-

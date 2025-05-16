@@ -2,7 +2,6 @@
 require_once('../../config/config.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Ambil data dari form
     $idOrder = $_POST['idOrder'];
     $namaPelanggan = $_POST['namaPelanggan'];
     $tanggalPesanan = $_POST['tanggalPesanan'];
@@ -16,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sisaKirim = $_POST['sisaKirim'];
     $status = $_POST['status'];
 
-    // Query untuk update data pesanan
+    // Update the order in the database
     $query = "UPDATE pesanan 
               SET namaPelanggan = '$namaPelanggan', 
                   tanggalPesanan = '$tanggalPesanan', 

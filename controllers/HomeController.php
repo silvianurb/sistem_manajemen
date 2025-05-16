@@ -51,6 +51,14 @@
             $('#content-area').load('../views/pengguna/pengguna.php');
         });
     });
+
+    // Script untuk menu "Laporan"
+    $(document).ready(function () {
+        $('#menu-laporan').click(function (e) {
+            e.preventDefault();
+            $('#content-area').load('../views/laporan/laporan.php');
+        });
+    });
 </script>
 <?php
 ?>
