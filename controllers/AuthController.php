@@ -15,12 +15,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Cek apakah user ditemukan
     if ($user) {
+
+        // Debugging: Tampilkan password yang dimasukkan dan password hash
+        echo "Password yang dimasukkan: " . $password . "<br>";
+        echo "Hash password yang disimpan: " . $user['password'] . "<br>";
+
         // Verifikasi password menggunakan password_verify()
         if (password_verify($password, $user['password'])) {
             // Password benar, buat session untuk user
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['namaUser'] = $user['namaUser'];
+
+            // Verifikasi role
+            $_SESSION['role'] = $user['role'];  // Simpan role di session
 
             // Redirect ke halaman dashboard setelah login berhasil
             header('Location: ../views/dashboard.php');

@@ -133,7 +133,7 @@ session_start();
                         <div class="mb-3">
                             <label for="editStok" class="form-label">Stok</label>
                             <input type="number" class="form-control" id="editStok" name="stok" required>
-                        </div>
+                        </div>  
                         <div class="mb-3">
                             <label for="editSatuan" class="form-label">Satuan</label>
                             <select class="form-control" id="editSatuan" name="satuan" required>

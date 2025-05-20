@@ -7,11 +7,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password']; 
     $role = $_POST['role'];
 
-     // Hash password sebelum disimpan, memotong hasil hash
-     $hashedPassword = substr(password_hash($password, PASSWORD_DEFAULT), 0, 30); // Mengambil 30 karakter pertama dari hash
+    // Hash password sebelum disimpan
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     $created_at = date('Y-m-d H:i:s');
 
+    // Periksa apakah ada pengguna terlebih dahulu untuk mendapatkan ID yang benar
     $query = "SELECT COUNT(*) AS total_users FROM users";
     $result = mysqli_query($conn, $query);
     $row = mysqli_fetch_assoc($result);
@@ -27,13 +28,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $next_id = 'USR' . str_pad((substr($max_id, 3) + 1), 2, '0', STR_PAD_LEFT);
     }
 
+    // Query untuk menambahkan pengguna baru
     $query = "INSERT INTO users (id, username, namaUser, password, role, created_at)
               VALUES ('$next_id', '$username', '$namaUser', '$hashedPassword', '$role', '$created_at')";
+
+    // Debugging - Tampilkan query yang dijalankan
+    echo "Query yang dijalankan: " . $query . "<br>";
 
     if (mysqli_query($conn, $query)) {
         echo "Data pengguna berhasil ditambahkan!";
     } else {
-        echo "Error: " . mysqli_error($conn);
+        echo "Error: " . mysqli_error($conn); // Tampilkan error jika ada
     }
 }
 ?>

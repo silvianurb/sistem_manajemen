@@ -78,7 +78,9 @@ if ($result) {
 
                     <!-- Content Row -->
                     <div class="row">
-                        <!-- Earnings (Monthly) Card Example -->
+
+                     <!-- Informasi Total Pendapatan -->
+                        <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manajer'): ?>
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
@@ -96,8 +98,10 @@ if ($result) {
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
+                        <?php endif; ?>
+                        
+                        <!-- Informasi Total Invoice -->
+                        <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manajer'): ?>
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
@@ -115,8 +119,10 @@ if ($result) {
                                 </div>
                             </div>
                         </div>
+                        <?php endif; ?>
 
-                        <!-- Earnings (Monthly) Card Example -->
+                        <!-- Informasi Total Surat Jalan -->
+                        <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manajer' || $_SESSION['role'] == 'petugas'): ?>
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
@@ -134,8 +140,10 @@ if ($result) {
                                 </div>
                             </div>
                         </div>
+                        <?php endif; ?>
 
-                        <!-- Pending Requests Card Example -->
+                        <!-- Informasi Total Pesanan -->
+                        <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manajer'): ?>
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-warning shadow h-100 py-2">
                                 <div class="card-body">
@@ -154,6 +162,7 @@ if ($result) {
                             </div>
                         </div>
                     </div>
+                    <?php endif; ?>
                     <!-- Content Row -->
 
                     <!-- Scroll to Top Button-->

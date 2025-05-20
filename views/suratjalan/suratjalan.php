@@ -67,6 +67,20 @@ session_start();
                                 <td><?php echo $row['size_xl_kirim']; ?></td>
                                 <td><?php echo $row['size_xxl_kirim']; ?></td>
                                 <td><?php echo $row['status_pengiriman']; ?></td>
+
+                                <td>
+                                    <?php
+                                    $statusPengiriman = $row['status_pengiriman'];
+                                    if ($statusPengiriman > 50) {
+                                        echo '<span class="badge bg-success text-light">Tersedia</span>';
+                                    } elseif ($statusPengiriman > 0 && $statusPengiriman <= 50) {
+                                        echo '<span class="badge bg-primary text-light">Menipis</span>';
+                                    } else {
+                                        echo '<span class="badge bg-danger text-light">Habis</span>';
+                                    }
+                                    ?>
+                                </td>
+
                                 <td>
                                     <a href="javascript:void(0);" class="btn btn-primary btn-sm printBtn"
                                         data-id="<?php echo $row['idsuratjalan']; ?>">
@@ -291,13 +305,16 @@ session_start();
 
                         <div class="mb-3">
                             <label for="editStatusPengiriman" class="form-label">Status Pengiriman</label>
-                            <select class="form-control" id="editStatusPengiriman" name="statusPengiriman" required>
+                            <select class="form-control" id="editStatusPengiriman" name="statusPengiriman" required
+                                disabled>
                                 <option value="Dikirim">Dikirim</option>
                                 <option value="Terkirim">Terkirim</option>
                             </select>
+                            <!-- Input hidden untuk mengirim nilai -->
+                            <input type="hidden" name="statusPengiriman" value="Dikirim" />
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                     </form>
                 </div>
             </div>
@@ -314,7 +331,7 @@ session_start();
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Data surat jalan berhasil diperbarui.
+                    Data surat jalan berhasil diperbarui
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Tutup</button>
@@ -394,7 +411,7 @@ session_start();
                                 $('#successDeleteModal').modal('show');
                                 $('#content-area').load('../views/suratjalan/suratjalan.php');
                             } else {
-                                alert("Gagal menghapus data.");
+                                alert("Data Sudah Terdaftar Invoice");
                             }
                         },
                         error: function (xhr, status, error) {
@@ -456,18 +473,22 @@ session_start();
                     type: 'POST',
                     data: formData,
                     success: function (response) {
-                        var data = JSON.parse(response);
-                        if (data.success) {
-                            $('#editSuratJalanModal').modal('hide');
-                            $('#successEditModal').modal('show');
-                            $('#content-area').load('../views/suratjalan/suratjalan.php');
-                        } else {
-                            alert('Terjadi kesalahan saat memperbarui data.');
+                        console.log(response); // Menambahkan log untuk melihat respons yang diterima
+                        try {
+                            var data = JSON.parse(response);
+                            if (data.success) {
+                                $('#editSuratJalanModal').modal('hide');
+                                $('#successEditModal').modal('show');
+                                $('#content-area').load('../views/suratjalan/suratjalan.php');
+                            } else {
+                                alert('Terjadi kesalahan saat memperbarui data.');
+                            }
+                        } catch (e) {
+                            console.error("Error parsing JSON: ", e);
+                            alert("Terjadi kesalahan saat menerima respons dari server.");
                         }
-                    },
-                    error: function () {
-                        alert("Terjadi kesalahan saat memperbarui data.");
                     }
+
                 });
             });
         });

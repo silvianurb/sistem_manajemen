@@ -59,6 +59,14 @@
             $('#content-area').load('../views/laporan/laporan.php');
         });
     });
+
+    // Script untuk menu "Distribusi"
+    $(document).ready(function () {
+        $('#menu-distribusi').click(function (e) {
+            e.preventDefault();
+            $('#content-area').load('../views/distribusi/distribusi.php');
+        });
+    });
 </script>
 <?php
 ?>

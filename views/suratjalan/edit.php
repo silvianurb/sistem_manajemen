@@ -39,12 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (mysqli_query($conn, $query)) {
         // Setelah update Surat Jalan, update data pesanan berdasarkan selisih size
         $queryUpdatePesanan = "UPDATE pesanan SET 
-            sizeS = sizeS - $diffSizeS, 
-            sizeM = sizeM - $diffSizeM, 
-            sizeL = sizeL - $diffSizeL, 
-            sizeXL = sizeXL - $diffSizeXL, 
-            sizeXXL = sizeXXL - $diffSizeXXL,
-            sisaKirim = sisaKirim - ($diffSizeS + $diffSizeM + $diffSizeL + $diffSizeXL + $diffSizeXXL)
+            sizeS = sizeS - $SizeS, 
+            sizeM = sizeM - $SizeM, 
+            sizeL = sizeL - $SizeL, 
+            sizeXL = sizeXL - $SizeXL, 
+            sizeXXL = sizeXXL - $SizeXXL,
+            sisaKirim = sisaKirim - ($SizeS + $SizeM + $SizeL + $SizeXL + $SizeXXL)
             WHERE idOrder = (SELECT idOrder FROM suratjalan WHERE idsuratjalan = '$idSuratJalan')";
 
         if (mysqli_query($conn, $queryUpdatePesanan)) {
