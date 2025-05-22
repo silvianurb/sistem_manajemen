@@ -2,6 +2,7 @@
 session_start();
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -393,7 +394,7 @@ session_start();
             $('#editSizeS, #editSizeM, #editSizeL, #editSizeXL, #editSizeXXL').on('input', calculateSisaKirimEdit);
 
 
-            // Tambah Order
+            // Insert Data
             $('#addForm').submit(function (e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
@@ -412,7 +413,7 @@ session_start();
                 });
             });
 
-            // Edit Order
+            // Edit Data
             $('.editBtn').click(function () {
                 var id = $(this).data('id');
                 var namaPelanggan = $(this).data('namapelanggan');
@@ -472,7 +473,7 @@ session_start();
                 });
             });
 
-            // Delete Order
+            // Delete Data
             $('.deleteBtn').click(function () {
                 var id = $(this).data('id');
                 $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');

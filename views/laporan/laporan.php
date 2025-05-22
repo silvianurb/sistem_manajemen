@@ -13,7 +13,6 @@ session_start();
     <?php
     require_once('../../config/config.php');
 
-    // Ambil semua data invoice tanpa filter bulan
     $query = "SELECT idInvoice, tanggal_invoice, nama_barang, nama_pelanggan, total_bayar FROM invoice";
     $result = mysqli_query($conn, $query);
     if (!$result) {
@@ -66,7 +65,6 @@ session_start();
                         </tr>
                     </thead>
                     <tbody id="invoiceData">
-                        <!-- Data akan dimasukkan di sini -->
                         <?php
                         if ($result && mysqli_num_rows($result) > 0) {
                             while ($row = mysqli_fetch_assoc($result)) { ?>
@@ -116,19 +114,15 @@ session_start();
         $(document).ready(function () {
             // Ketika tombol "Cetak Laporan" ditekan
             $('#cetakLaporan').click(function () {
-                var month = $('#month').val(); // Mendapatkan bulan yang dipilih
-
-                // Menggunakan AJAX untuk memanggil cetak_laporan.php
+                var month = $('#month').val();
                 $.ajax({
-                    url: 'laporan/cetak_laporan.php', // Pastikan pathnya benar
+                    url: 'laporan/cetak_laporan.php', 
                     type: 'GET',
                     data: { month: month },
                     success: function (response) {
                         if (response == 'no_data') {
-                            // Jika tidak ada data untuk bulan tersebut, tampilkan modal
                             $('#noDataModal').modal('show');
                         } else {
-                            // Membuka PDF hasil dari cetak_laporan.php
                             var pdfWindow = window.open();
                             pdfWindow.document.write('<iframe src="' + response + '" frameborder="0" width="100%" height="100%"></iframe>');
                         }

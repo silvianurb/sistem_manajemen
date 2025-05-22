@@ -375,7 +375,7 @@ session_start();
                 }
             });
 
-            // Simpan Surat Jalan
+            // Insert Data
             $('#suratJalanForm').submit(function (e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
@@ -396,7 +396,7 @@ session_start();
                 });
             });
 
-            // Delete Order
+            // Delete Data
             $('.deleteBtn').click(function () {
                 var id = $(this).data('id');
                 $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
@@ -421,7 +421,7 @@ session_start();
                 });
             });
 
-            // Menangani klik tombol cetak
+            // Cetak Data
             $('.printBtn').click(function () {
                 var idSuratJalan = $(this).data('id');
                 $.ajax({
@@ -438,7 +438,7 @@ session_start();
                 });
             });
 
-            // Menangani klik tombol edit
+            // Edit Data
             $('.editBtn').click(function () {
                 // Mengambil data dari atribut data- yang ada pada tombol edit
                 var idSuratJalan = $(this).data('id');

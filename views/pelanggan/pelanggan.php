@@ -235,7 +235,7 @@ session_start();
             // DataTable Initialization
             $('#dataTable').DataTable();
 
-            // Add Form Submit
+            // Insert Data
             $('#addForm').submit(function (e) {
                 e.preventDefault();
 
@@ -262,7 +262,7 @@ session_start();
                 });
             });
 
-            // Edit Button Click
+            // Edit Data
             $('.editBtn').click(function () {
                 // Ambil data dari atribut data-*
                 var id = $(this).data('id');

@@ -237,7 +237,7 @@ session_start();
         $(document).ready(function () {
             $('#dataTable').DataTable();
 
-            // Add Data
+            // Insert Data
             $('#addForm').submit(function (e) {
                 e.preventDefault();
 
@@ -294,7 +294,7 @@ session_start();
                 });
             });
 
-            // Hapus data
+            // Delete Data
             $(document).ready(function () {
                 $('.deleteBtn').click(function () {
                     var id = $(this).data('id');

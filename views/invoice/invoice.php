@@ -533,7 +533,7 @@ if (!$result) {
                 }
             });
 
-            //fungsi tanbah
+            // Insert Data
             $('#invoiceForm').submit(function (e) {
                 e.preventDefault(); // Prevent default form submission
 
@@ -559,7 +559,7 @@ if (!$result) {
                 });
             });
 
-            // Fungsi untuk mengedit data invoice
+            // Edit Data
             $(document).on('click', '.editBtn', function () {
                 var idInvoice = $(this).data('id'); // Ambil ID Invoice dari atribut data-id
                 console.log(idInvoice);  // Debugging: cek ID yang diambil
@@ -630,7 +630,7 @@ if (!$result) {
             });
 
 
-            // **Delete Invoice** - Menambahkan Konfirmasi Hapus
+            // Delete Data
             $('.deleteBtn').click(function () {
                 var id = $(this).data('id');
                 $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
@@ -659,7 +659,7 @@ if (!$result) {
                 });
             });
 
-            // Menangani klik tombol cetak
+            // Cetak Data
             $('.printBtn').click(function () {
                 var idInvoice = $(this).data('id');
                 $.ajax({

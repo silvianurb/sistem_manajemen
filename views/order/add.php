@@ -2,6 +2,7 @@
 require_once('../../config/config.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Ambil data dari formulir
     $namaPelanggan = $_POST['namaPelanggan'];
     $tanggalPesanan = $_POST['tanggalPesanan'];
     $namaBarang = $_POST['namaBarang'];
@@ -28,9 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $next_id = 'ORD' . str_pad((substr($max_id, 3) + 1), 2, '0', STR_PAD_LEFT);
     }
 
-    // Query untuk menambahkan data pesanan
+    // Query untuk menambahkan data pesanan ke dalam database
     $query = "INSERT INTO pesanan (idOrder, namaPelanggan, tanggalPesanan, namaBarang, sizeS, sizeM, sizeL, sizeXL, sizeXXL, bahan, sisaKirim, status)
-          VALUES ('$next_id', '$namaPelanggan', NOW(), '$namaBarang', '$sizeS', '$sizeM', '$sizeL', '$sizeXL', '$sizeXXL', '$bahan', '$sisaKirim', '$status')";
+              VALUES ('$next_id', '$namaPelanggan', NOW(), '$namaBarang', '$sizeS', '$sizeM', '$sizeL', '$sizeXL', '$sizeXXL', '$bahan', '$sisaKirim', '$status')";
 
     if (mysqli_query($conn, $query)) {
         echo "Order berhasil ditambahkan!";

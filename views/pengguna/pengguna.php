@@ -233,7 +233,7 @@ session_start();
     <script>
         $(document).ready(function () {
             $('#dataTable').DataTable();
-            // Tambah Data
+            // Insert Data
             $('#addForm').submit(function (e) {
                 e.preventDefault();
 
