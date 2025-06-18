@@ -1,12 +1,14 @@
 <?php
 session_start();
+include_once('../../config/config.php');
+check_login();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <link href="../assets/styles.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -47,7 +49,9 @@ session_start();
 
                     <!-- Tombol Cetak Laporan -->
                     <div class="col-md-3">
-                        <button type="button" id="cetakLaporan" class="btn btn-success w-80">Cetak Laporan</button>
+                        <button type="button" id="cetakLaporan" class="btn btn-primary w-80">
+                            <i class="fa fa-download"></i> Cetak Laporan
+                        </button>
                     </div>
                 </div>
             </form>
@@ -116,7 +120,7 @@ session_start();
             $('#cetakLaporan').click(function () {
                 var month = $('#month').val();
                 $.ajax({
-                    url: 'laporan/cetak_laporan.php', 
+                    url: 'laporan/cetak_laporan.php',
                     type: 'GET',
                     data: { month: month },
                     success: function (response) {

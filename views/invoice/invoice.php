@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once('../../config/config.php');
+include_once('../../config/config.php');\
+check_login();
 
 // Query untuk mengambil data invoice
 $query = "SELECT invoice.idInvoice, invoice.tanggal_invoice, invoice.idSuratJalan, invoice.nama_pelanggan, 
@@ -16,7 +17,7 @@ if (!$result) {
 <html lang="en">
 
 <head>
-    <link href="../assets/styles.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -26,8 +27,9 @@ if (!$result) {
         </div>
         <div class="card-body">
             <div class="mb-3">
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#invoiceModal">Tambah
-                    Invoice</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#invoiceModal">
+                    <i class="fa fa-plus-circle"></i> Tambah Invoice
+                </button>
             </div>
 
             <div class="table-responsive">

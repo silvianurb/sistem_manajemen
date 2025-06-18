@@ -1,12 +1,14 @@
 <?php
 session_start();
+include_once('../../config/config.php');
+check_login();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <link href="../assets/styles.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
 <body>

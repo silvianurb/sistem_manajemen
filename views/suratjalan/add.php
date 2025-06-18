@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $namaPelanggan = $_POST['namaPelanggan'];
     $namaBarang = $_POST['namaBarang'];
     $alamatPelanggan = $_POST['alamatPelanggan'];
-    
+
     // Cek apakah sizeS, sizeM, sizeL, sizeXL, sizeXXL kosong, jika kosong set ke 0
     $sizeS = isset($_POST['sizeS']) && !empty($_POST['sizeS']) ? $_POST['sizeS'] : 0;
     $sizeM = isset($_POST['sizeM']) && !empty($_POST['sizeM']) ? $_POST['sizeM'] : 0;

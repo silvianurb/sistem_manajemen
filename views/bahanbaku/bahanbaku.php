@@ -1,12 +1,14 @@
 <?php
 session_start();
+include_once('../../config/config.php');
+check_login();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <link href="../assets/styles.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -26,7 +28,9 @@ session_start();
         <div class="card-body">
             <!-- Tambah Data Button placed here -->
             <div class="mb-3">
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Tambah Data</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                    <i class="fa fa-plus-circle"></i> Tambah Bahan Baku
+                </button>
             </div>
 
             <div class="table-responsive">
@@ -133,7 +137,7 @@ session_start();
                         <div class="mb-3">
                             <label for="editStok" class="form-label">Stok</label>
                             <input type="number" class="form-control" id="editStok" name="stok" required>
-                        </div>  
+                        </div>
                         <div class="mb-3">
                             <label for="editSatuan" class="form-label">Satuan</label>
                             <select class="form-control" id="editSatuan" name="satuan" required>
@@ -226,11 +230,14 @@ session_start();
         </div>
     </div>
 
-    <!-- Add DataTables Script Initialization -->
+    <!-- Panggil jQuery terlebih dahulu -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Kemudian DataTable -->
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
 
+    <!-- Terakhir Bootstrap JS dan Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>

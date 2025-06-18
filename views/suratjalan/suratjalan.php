@@ -1,24 +1,26 @@
 <?php
 session_start();
+include_once('../../config/config.php');
+check_login();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <link href="../assets/styles.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
 <body>
     <?php
-    require_once('../../config/config.php');
+    include_once('../../config/config.php');
 
     // Update query untuk menambahkan data ukuran
     $query = "SELECT suratjalan.idsuratjalan, suratjalan.idOrder, suratjalan.tanggal_surat_jalan, 
                  suratjalan.nama_pelanggan, suratjalan.nama_barang, suratjalan.status_pengiriman,
                  suratjalan.size_s_kirim, suratjalan.size_m_kirim, suratjalan.size_l_kirim, 
                  suratjalan.size_xl_kirim, suratjalan.size_xxl_kirim
-          FROM suratjalan"; // Ambil data dari tabel suratjalan
+          FROM suratjalan"; 
     $result = mysqli_query($conn, $query);
     if (!$result) {
         die("Query gagal: " . mysqli_error($conn));
@@ -31,8 +33,9 @@ session_start();
         </div>
         <div class="card-body">
             <div class="mb-3">
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#suratJalanModal">Tambah Surat
-                    Jalan</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#suratJalanModal">
+                    <i class="fa fa-plus-circle"></i> Tambah Surat Jalan
+                </button>
             </div>
 
             <div class="table-responsive">
@@ -66,21 +69,16 @@ session_start();
                                 <td><?php echo $row['size_l_kirim']; ?></td>
                                 <td><?php echo $row['size_xl_kirim']; ?></td>
                                 <td><?php echo $row['size_xxl_kirim']; ?></td>
-                                <td><?php echo $row['status_pengiriman']; ?></td>
-
                                 <td>
                                     <?php
-                                    $statusPengiriman = $row['status_pengiriman'];
-                                    if ($statusPengiriman > 50) {
-                                        echo '<span class="badge bg-success text-light">Tersedia</span>';
-                                    } elseif ($statusPengiriman > 0 && $statusPengiriman <= 50) {
-                                        echo '<span class="badge bg-primary text-light">Menipis</span>';
-                                    } else {
-                                        echo '<span class="badge bg-danger text-light">Habis</span>';
+                                    $status = $row['status_pengiriman'];
+                                    if ($status == 'Dikirim') {
+                                        echo '<span class="badge bg-success status-circle text-white">Dikirim</span>';
+                                    } elseif ($status == 'Terkirim') {
+                                        echo '<span class="badge bg-warning status-circle text-white">Terkirim</span>';
                                     }
                                     ?>
                                 </td>
-
                                 <td>
                                     <a href="javascript:void(0);" class="btn btn-primary btn-sm printBtn"
                                         data-id="<?php echo $row['idsuratjalan']; ?>">
@@ -158,8 +156,8 @@ session_start();
 
                         <div class="mb-3">
                             <label for="alamatPelanggan" class="form-label">Alamat</label>
-                            <textarea class="form-control" id="alamatPelanggan" name="alamatPelanggan"
-                                rows="3"></textarea>
+                            <textarea class="form-control" id="alamatPelanggan" name="alamatPelanggan" rows="3"
+                                required></textarea>
                         </div>
 
                         <div class="mb-3">
@@ -169,7 +167,8 @@ session_start();
 
                         <div class="mb-3">
                             <label for="sizeM" class="form-label">Size M yang Dikirim</label>
-                            <input type="number" class="form-control" id="sizeM" name="sizeM" value="0">
+                            <input type="number" class="form-control" id="sizeM" name="sizeM" value="0" min="0">
+                            <div class="error-msg text-danger" id="error-sizeS"></div>
                         </div>
 
                         <div class="mb-3">
@@ -189,10 +188,13 @@ session_start();
 
                         <div class="mb-3">
                             <label for="statusPengiriman" class="form-label">Status Pengiriman</label>
-                            <select class="form-control" id="statusPengiriman" name="statusPengiriman" required>
+                            <select class="form-control" id="statusPengiriman" name="statusPengiriman" required
+                                disabled>
                                 <option value="Dikirim">Dikirim</option>
                                 <option value="Terkirim">Terkirim</option>
                             </select>
+                            <!-- Input hidden untuk mengirim nilai -->
+                            <input type="hidden" name="statusPengiriman" value="Dikirim" />
                         </div>
 
                         <button type="submit" class="btn btn-primary">Simpan</button>
@@ -344,7 +346,6 @@ session_start();
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -378,6 +379,31 @@ session_start();
             // Insert Data
             $('#suratJalanForm').submit(function (e) {
                 e.preventDefault();
+
+                // Clear semua pesan error sebelumnya
+                $('.error-msg').html('');
+
+                let isValid = true;
+                let sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+
+                // Loop validasi tiap size
+                sizes.forEach(size => {
+                    let kirim = parseInt($(`[name="size${size}"]`).val()) || 0;
+                    let pesanan = parseInt($(`#pesanan${size}`).val()) || 0;
+
+                    if (kirim > pesanan) {
+                        $(`#error-size${size}`).html(`Jumlah size ${size} (${kirim}) melebihi pesanan (${pesanan}).`);
+                        isValid = false;
+                    }
+                });
+
+                if (!isValid) {
+                    // Fokus ke input yang error pertama
+                    $('.error-msg:contains("melebihi pesanan")').first().prev('input').focus();
+                    return; // Stop submit, jangan lanjut AJAX
+                }
+
+                // Kalau valid, lanjut submit AJAX
                 var formData = $(this).serialize();
                 console.log(formData);
                 $.ajax({
@@ -488,7 +514,6 @@ session_start();
                             alert("Terjadi kesalahan saat menerima respons dari server.");
                         }
                     }
-
                 });
             });
         });

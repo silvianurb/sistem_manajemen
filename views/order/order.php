@@ -1,13 +1,14 @@
 <?php
 session_start();
+include_once('../../config/config.php');
+check_login();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <link href="../assets/styles.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -32,7 +33,9 @@ session_start();
         <div class="card-body">
             <!-- Tambah Data Order Button placed here -->
             <div class="mb-3">
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Tambah Order</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                    <i class="fa fa-plus-circle"></i> Tambah Order
+                </button>
             </div>
 
             <div class="table-responsive">
