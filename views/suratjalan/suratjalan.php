@@ -423,7 +423,7 @@ check_login();
             });
 
             // Delete Data
-            $('.deleteBtn').click(function () {
+            $(document).on('click', '.deleteBtn', function () {
                 var id = $(this).data('id');
                 $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
                 $('#deleteModal').modal('show');
@@ -465,7 +465,7 @@ check_login();
             });
 
             // Edit Data
-            $('.editBtn').click(function () {
+            $(document).on('click', '.editBtn', function () {
                 // Mengambil data dari atribut data- yang ada pada tombol edit
                 var idSuratJalan = $(this).data('id');
                 var tanggalSuratJalan = $(this).data('tanggal');

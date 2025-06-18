@@ -266,7 +266,7 @@ check_login();
             });
 
             // Edit Data
-            $('.editBtn').click(function () {
+            $(document).on('click', '.editBtn', function () {
                 var id = $(this).data('id');
                 var namaBahan = $(this).data('nama');
                 var stok = $(this).data('stok');
@@ -303,7 +303,7 @@ check_login();
 
             // Delete Data
             $(document).ready(function () {
-                $('.deleteBtn').click(function () {
+                $(document).on('click', '.deleteBtn', function () {
                     var id = $(this).data('id');
                     $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
                     $('#deleteModal').modal('show');

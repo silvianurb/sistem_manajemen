@@ -267,7 +267,7 @@ check_login();
             });
 
             // Edit Data
-            $('.editBtn').click(function () {
+            $(document).on('click', '.editBtn', function () {
                 // Ambil data dari atribut data-*
                 var id = $(this).data('id');
                 var nama = $(this).data('nama');
@@ -314,7 +314,7 @@ check_login();
             });
 
             // Delete Data
-            $('.deleteBtn').click(function () {
+            $(document).on('click', '.deleteBtn', function () {
                 var id = $(this).data('id');
                 $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
                 $('#deleteModal').modal('show');

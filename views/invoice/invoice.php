@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once('../../config/config.php');\
+include_once('../../config/config.php');
 check_login();
 
 // Query untuk mengambil data invoice
@@ -631,9 +631,8 @@ if (!$result) {
                 });
             });
 
-
             // Delete Data
-            $('.deleteBtn').click(function () {
+            $(document).on('click', '.deleteBtn', function () {
                 var id = $(this).data('id');
                 $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
                 $('#deleteModal').modal('show');

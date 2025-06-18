@@ -7,6 +7,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password']; 
     $role = $_POST['role'];
 
+    // Validasi password minimal 8 karakter
+    if (strlen($password) < 8) {
+        echo "Error: Password harus terdiri dari minimal 8 karakter.";
+        exit;
+    }
+    
     // Hash password sebelum disimpan
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 

@@ -188,8 +188,7 @@ check_login();
             });
 
             // Menangani klik tombol edit
-            $('.editBtn').click(function () {
-                // Mengambil data dari atribut data- yang ada pada tombol edit
+            $(document).on('click', '.editBtn', function () {
                 var idSuratJalan = $(this).data('id');
                 var tanggalSuratJalan = $(this).data('tanggal');
                 var namaPelanggan = $(this).data('nama-pelanggan');

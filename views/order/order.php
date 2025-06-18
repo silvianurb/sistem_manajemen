@@ -417,7 +417,7 @@ check_login();
             });
 
             // Edit Data
-            $('.editBtn').click(function () {
+            $(document).on('click', '.editBtn', function () {
                 var id = $(this).data('id');
                 var namaPelanggan = $(this).data('namapelanggan');
                 var tanggalPesanan = $(this).data('tanggalpesanan');
@@ -477,7 +477,7 @@ check_login();
             });
 
             // Delete Data
-            $('.deleteBtn').click(function () {
+            $(document).on('click', '.deleteBtn', function () {
                 var id = $(this).data('id');
                 $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
                 $('#deleteModal').modal('show');

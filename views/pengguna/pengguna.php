@@ -231,7 +231,6 @@ check_login();
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -240,6 +239,12 @@ check_login();
             // Insert Data
             $('#addForm').submit(function (e) {
                 e.preventDefault();
+
+                var password = $('#password').val();
+                if (password.length < 8) {
+                    alert('Password harus terdiri dari minimal 8 karakter.');
+                    return false;
+                }
 
                 var formData = $(this).serialize();
 
@@ -259,11 +264,12 @@ check_login();
             });
 
             // Edit Data
-            $('.editBtn').click(function () {
+            $(document).on('click', '.editBtn', function () {
                 var id = $(this).data('id');
                 var username = $(this).data('username');
                 var namaUser = $(this).data('nama');
                 var role = $(this).data('role');
+                var password = "";
 
                 $('#editId').val(id);
                 $('#editUsername').val(username);
@@ -276,6 +282,12 @@ check_login();
             // Update Data
             $('#editForm').submit(function (e) {
                 e.preventDefault();
+
+                var password = $('#editPassword').val();
+                if (password.length < 8) {
+                    alert('Password harus terdiri dari minimal 8 karakter.');
+                    return false;
+                }
 
                 var formData = $(this).serialize();
 
@@ -295,7 +307,7 @@ check_login();
             });
 
             // Delete Data
-            $('.deleteBtn').click(function () {
+            $(document).on('click', '.deleteBtn', function () {
                 var id = $(this).data('id');
 
                 $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
