@@ -8,96 +8,142 @@ $dompdf = new Dompdf();
 session_start();
 require_once('../../config/config.php');
 
-// Mendapatkan bulan yang dipilih
 $month = isset($_GET['month']) ? $_GET['month'] : date('m');
 
-// Query untuk mendapatkan data berdasarkan bulan yang dipilih
 $query = "SELECT idInvoice, tanggal_invoice, nama_barang, nama_pelanggan, total_bayar
           FROM invoice WHERE MONTH(tanggal_invoice) = '$month'";
 
 $result = mysqli_query($conn, $query);
 
 if (!$result || mysqli_num_rows($result) == 0) {
-    echo 'no_data';  // Jika tidak ada data, kirimkan 'no_data'
+    echo 'no_data';
     exit;
 }
 
-$totalBayar = 0;  // Variabel untuk menyimpan total pembayaran
+$totalBayar = 0;
 
 $html = "
 <html>
 <head>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 0.7; }
-        h1 { text-align: center; font-size: 24px; font-weight: bold; }
-        h2 { text-align: center; font-size: 20px; margin-top: 5px; }
-        h3 { text-align: center; font-size: 18px; margin-top: 5px; }
-        .table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .table th, .table td { padding: 8px; border: 1px solid #ddd; text-align: center; }
-        .table th { background-color: rgb(32, 52, 154); color: white; }
-        .footer { text-align: center; margin-top: 20px; font-size: 12px; }
-        .total { text-align: right; font-weight: bold; font-size: 18px; margin-top: 20px; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #4a4a4a;
+            font-size: 12px;
+        }
+        .header-text {
+            flex-grow: 1;
+        }
+        .header-text h1 {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .header-text h2 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 5px 0;
+        }
+        .header-text p {
+            font-size: 11px;
+            margin: 0;
+            color: #6b7280;
+        }
+        .divider {
+            border-bottom: 2px double #4a4a4a;
+            margin: 15px 0 20px 0;
+        }
+        .document-title {
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: underline;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 6px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        th {
+            background-color: #20349a;
+            color: white;
+        }
+        .total {
+            text-align: right;
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 10px;
+            color: #888;
+        }
     </style>
 </head>
 <body>
-    <h1>CV Karna Kalani Gemilang</h1>
-    <h3>Laporan Invoice Bulan " . date("F", mktime(0, 0, 0, $month, 10)) . "</h3>
-    <h3>Tahun " . date('Y') . "</h3>
-    
-    <table class='table'>
-        <thead>
-            <tr>
-                <th>ID Invoice</th>
-                <th>Tanggal Invoice</th>
-                <th>Nama Barang</th>
-                <th>Nama Pelanggan</th>
-                <th>Total Bayar</th>
-            </tr>
-        </thead>
-        <tbody>";
+        <div class='header'>
+            <div class='header-text'>
+                <h1>CV KARYA KALANI GEMILANG</h1>
+                <h2>Ahli Produksi Pakaian</h2>
+                <p>Komp. Angkasa Mekar, Jl. Cisirung No.110 kav 109 Cangkung Kulon<br>
+                Kota Bandung, Jawa Barat, 40239</p>
+            </div>
+        </div>
+        <div class='divider'></div>
+
+        <div class='document-title'>Laporan Invoice Bulan " . date("F", mktime(0, 0, 0, $month, 10)) . " Tahun " . date('Y') . "</div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Invoice</th>
+                    <th>Tanggal Invoice</th>
+                    <th>Nama Barang</th>
+                    <th>Nama Pelanggan</th>
+                    <th>Total Bayar</th>
+                </tr>
+            </thead>
+            <tbody>";
 
 while ($row = mysqli_fetch_assoc($result)) {
-    // Menambahkan nilai total_bayar untuk dihitung totalnya
     $totalBayar += $row['total_bayar'];
-
     $html .= "
-    <tr>
-        <td>" . $row['idInvoice'] . "</td>
-        <td>" . $row['tanggal_invoice'] . "</td>
-        <td>" . $row['nama_barang'] . "</td>
-        <td>" . $row['nama_pelanggan'] . "</td>
-        <td>Rp " . number_format($row['total_bayar'], 0, ',', '.') . "</td>
-    </tr>";
+        <tr>
+            <td>" . $row['idInvoice'] . "</td>
+            <td>" . $row['tanggal_invoice'] . "</td>
+            <td>" . $row['nama_barang'] . "</td>
+            <td>" . $row['nama_pelanggan'] . "</td>
+            <td>Rp " . number_format($row['total_bayar'], 0, ',', '.') . "</td>
+        </tr>";
 }
 
 $html .= "
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
-    <!-- Total Pembayaran di sebelah kanan -->
-    <div class='total'>
-        <p>Total Pembayaran: Rp " . number_format($totalBayar, 0, ',', '.') . "</p>
-    </div>
+        <div class='total'>Total Pembayaran: Rp " . number_format($totalBayar, 0, ',', '.') . "</div>
 
-    <div class='footer'>
-        <p>Generated on " . date('d F Y') . "</p>
-    </div>
+        <div class='footer'>Generated on " . date('d F Y') . "</div>
+    
 </body>
 </html>
 ";
 
-// Load HTML ke Dompdf
 $dompdf->loadHtml($html);
 $dompdf->setPaper('A4', 'landscape');
-
-// Rendering PDF
 $dompdf->render();
 
-// Tentukan path untuk menyimpan PDF
 $pdfOutput = $dompdf->output();
 $filePath = '../../assets/uploads/laporan_invoice_bulan_' . date("F", mktime(0, 0, 0, $month, 10)) . '.pdf';
 file_put_contents($filePath, $pdfOutput);
 
-// Mengembalikan path file PDF
 echo "http://localhost/manajemen/assets/uploads/laporan_invoice_bulan_" . date("F", mktime(0, 0, 0, $month, 10)) . ".pdf";
 ?>

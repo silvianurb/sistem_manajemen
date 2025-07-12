@@ -56,7 +56,7 @@ session_start();
                 </div>
                 <div class="form-group d-md-flex justify-content-center">
                   <div class="w-50 text-center">
-                    <a style="font-size: 12px;">Belum memiliki akun? Silahkan hubungi admin</a>
+                    <a style="font-size: 12px;">Jika belum memiliki akun, silakan hubungi admin</a>
                   </div>
                 </div>
               </form>

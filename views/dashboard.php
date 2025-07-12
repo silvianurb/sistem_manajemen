@@ -58,9 +58,23 @@ if ($result) {
                     <i class="fa fa-bars"></i>
                 </button>
 
-                <h1 class="text-center" style="font-size: 24px; font-weight: bold; padding: 10px 0; margin-top: 10px;">
+                <h1 class="text-center custom-heading">
                     Sistem Manajemen Pesanan dan Produksi
                 </h1>
+
+                <style>
+                    .custom-heading {
+                        font-size: 22px;
+                        font-weight: 700;
+                        padding: 20px 0;
+                        margin-top: 5px;
+                        color:rgb(5, 64, 123);
+                        text-align: center;
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                        text-shadow: 2px 2px 5px rgba(51, 30, 105, 0.15);/
+                    }
+                </style>
 
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto">
@@ -102,12 +116,12 @@ if ($result) {
                                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                     Total Pendapatan
                                                 </div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">Rp.
+                                                <div class="h5 mb-0 font-weight-bold text-dark">Rp.
                                                     <?php echo number_format($totalPendapatan, 0, ',', '.'); ?>
                                                 </div>
                                             </div>
                                             <div class="col-auto">
-                                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                                <i class="fas fa-dollar-sign fa-2x text-dark"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -125,12 +139,12 @@ if ($result) {
                                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                     Invoice
                                                 </div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <div class="h5 mb-0 font-weight-bold text-dark">
                                                     <?php echo $totalInvoice; ?>
                                                 </div>
                                             </div>
                                             <div class="col-auto">
-                                                <i class="fas fa-file-invoice fa-2x text-gray-300"></i>
+                                                <i class="fas fa-file-invoice fa-2x text-dark"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -141,19 +155,19 @@ if ($result) {
                         <!-- Informasi Total Surat Jalan -->
                         <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manajer' || $_SESSION['role'] == 'petugas'): ?>
                             <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card border-left-danger shadow h-100 py-2">
                                     <div class="card-body">
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                     Surat Jalan
                                                 </div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <div class="h5 mb-0 font-weight-bold text-dark">
                                                     <?php echo $totalSuratJalan; ?>
                                                 </div>
                                             </div>
                                             <div class="col-auto">
-                                                <i class="fas fa-truck fa-2x text-gray-300"></i>
+                                                <i class="fas fa-truck fa-2x text-dark"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -171,12 +185,12 @@ if ($result) {
                                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                     Pesanan
                                                 </div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <div class="h5 mb-0 font-weight-bold text-dark">
                                                     <?php echo $totalPesanan; ?>
                                                 </div>
                                             </div>
                                             <div class="col-auto">
-                                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                                <i class="fas fa-clipboard-list fa-2x text-dark"></i>
                                             </div>
                                         </div>
                                     </div>

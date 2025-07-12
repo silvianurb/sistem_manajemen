@@ -144,7 +144,7 @@ check_login();
                                 <option value="manajer">Manajer</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        <button type="submit" class="btn btn-dark">Simpan Perubahan</button>
                     </form>
                 </div>
             </div>
