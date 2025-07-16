@@ -218,25 +218,20 @@ check_login();
                     data: formData,
                     success: function (response) {
                         console.log(response); // Menambahkan log untuk melihat respons yang diterima
-                        try {
-                            var data = JSON.parse(response);
-                            if (data.success) {
-                                $('#editSuratJalanModal').modal('hide');
-                                $('#successEditModal').modal('show');
-                                $('#content-area').load('../views/suratjalan/suratjalan.php');
-                                table.clear().destroy();
-                                table = $('#dataTable').DataTable();
-                            } else {
-                                alert('Terjadi kesalahan saat memperbarui data.');
-                            }
-                        } catch (e) {
-                            console.error("Error parsing JSON: ", e);
-                            alert("Terjadi kesalahan saat menerima respons dari server.");
+                        var data = JSON.parse(response);
+                        if (data.success) {
+                            $('#editSuratJalanModal').modal('hide');
+                            $('#successEditModal').modal('show');
+                            $('#content-area').load('../views/distribusi/distribusi.php');
+                            table.clear().destroy();
+                            table = $('#dataTable').DataTable();
+                        } else {
+                            alert('Terjadi kesalahan saat memperbarui data.');
                         }
                     }
-
                 });
             });
+
         });
     </script>
 

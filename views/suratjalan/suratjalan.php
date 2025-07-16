@@ -380,29 +380,6 @@ check_login();
             $('#suratJalanForm').submit(function (e) {
                 e.preventDefault();
 
-                // Clear semua pesan error sebelumnya
-                $('.error-msg').html('');
-
-                let isValid = true;
-                let sizes = ['S', 'M', 'L', 'XL', 'XXL'];
-
-                // Loop validasi tiap size
-                sizes.forEach(size => {
-                    let kirim = parseInt($(`[name="size${size}"]`).val()) || 0;
-                    let pesanan = parseInt($(`#pesanan${size}`).val()) || 0;
-
-                    if (kirim > pesanan) {
-                        $(`#error-size${size}`).html(`Jumlah size ${size} (${kirim}) melebihi pesanan (${pesanan}).`);
-                        isValid = false;
-                    }
-                });
-
-                if (!isValid) {
-                    // Fokus ke input yang error pertama
-                    $('.error-msg:contains("melebihi pesanan")').first().prev('input').focus();
-                    return; // Stop submit, jangan lanjut AJAX
-                }
-
                 // Kalau valid, lanjut submit AJAX
                 var formData = $(this).serialize();
                 console.log(formData);
