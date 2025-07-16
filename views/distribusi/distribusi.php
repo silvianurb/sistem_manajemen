@@ -224,6 +224,8 @@ check_login();
                                 $('#editSuratJalanModal').modal('hide');
                                 $('#successEditModal').modal('show');
                                 $('#content-area').load('../views/suratjalan/suratjalan.php');
+                                table.clear().destroy();
+                                table = $('#dataTable').DataTable();
                             } else {
                                 alert('Terjadi kesalahan saat memperbarui data.');
                             }

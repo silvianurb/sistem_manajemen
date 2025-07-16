@@ -255,6 +255,8 @@ check_login();
                     success: function (response) {
                         $('#successAddModal').modal('show');
                         $('#content-area').load('../views/pengguna/pengguna.php');
+                        table.clear().destroy();
+                        table = $('#dataTable').DataTable();
                         $('#addModal').modal('hide');
                     },
                     error: function (xhr, status, error) {
@@ -298,6 +300,8 @@ check_login();
                     success: function (response) {
                         $('#successEditModal').modal('show');
                         $('#content-area').load('../views/pengguna/pengguna.php');
+                        table.clear().destroy();
+                        table = $('#dataTable').DataTable();
                         $('#editModal').modal('hide');
                     },
                     error: function (xhr, status, error) {
@@ -323,6 +327,8 @@ check_login();
                                 $('#deleteModal').modal('hide');
                                 $('#successDeleteModal').modal('show');
                                 $('#content-area').load('../views/pengguna/pengguna.php');
+                                table.clear().destroy();
+                                table = $('#dataTable').DataTable();
                             } else {
                                 alert("Gagal menghapus data.");
                             }

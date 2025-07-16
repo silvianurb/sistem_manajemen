@@ -20,7 +20,7 @@ check_login();
                  suratjalan.nama_pelanggan, suratjalan.nama_barang, suratjalan.status_pengiriman,
                  suratjalan.size_s_kirim, suratjalan.size_m_kirim, suratjalan.size_l_kirim, 
                  suratjalan.size_xl_kirim, suratjalan.size_xxl_kirim
-          FROM suratjalan"; 
+          FROM suratjalan";
     $result = mysqli_query($conn, $query);
     if (!$result) {
         die("Query gagal: " . mysqli_error($conn));
@@ -414,6 +414,8 @@ check_login();
                         console.log(response);
                         $('#successAddModal').modal('show');
                         $('#content-area').load('../views/suratjalan/suratjalan.php');
+                        table.clear().destroy();
+                        table = $('#dataTable').DataTable();
                         $('#suratJalanModal').modal('hide');
                     },
                     error: function (xhr, status, error) {
@@ -436,6 +438,8 @@ check_login();
                                 $('#deleteModal').modal('hide');
                                 $('#successDeleteModal').modal('show');
                                 $('#content-area').load('../views/suratjalan/suratjalan.php');
+                                table.clear().destroy();
+                                table = $('#dataTable').DataTable();
                             } else {
                                 alert("Data Sudah Terdaftar Invoice");
                             }
@@ -506,6 +510,8 @@ check_login();
                                 $('#editSuratJalanModal').modal('hide');
                                 $('#successEditModal').modal('show');
                                 $('#content-area').load('../views/suratjalan/suratjalan.php');
+                                table.clear().destroy();
+                                table = $('#dataTable').DataTable();
                             } else {
                                 alert('Terjadi kesalahan saat memperbarui data.');
                             }

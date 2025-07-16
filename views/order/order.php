@@ -408,6 +408,8 @@ check_login();
                     success: function (response) {
                         $('#successAddModal').modal('show');
                         $('#content-area').load('../views/order/order.php');
+                        table.clear().destroy();
+                        table = $('#dataTable').DataTable();
                         $('#addModal').modal('hide');
                     },
                     error: function (xhr, status, error) {
@@ -458,7 +460,7 @@ check_login();
             $('#editForm').submit(function (e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-                console.log("Form Data being sent: ", formData); 
+                console.log("Form Data being sent: ", formData);
                 $.ajax({
                     url: 'order/edit.php',
                     type: 'POST',
@@ -467,6 +469,8 @@ check_login();
                         console.log(response);  // Cek response dari server
                         $('#successEditModal').modal('show');
                         $('#content-area').load('../views/order/order.php');
+                        table.clear().destroy();
+                        table = $('#dataTable').DataTable();
                         $('#editModal').modal('hide');
                     },
                     error: function (xhr, status, error) {
@@ -490,6 +494,8 @@ check_login();
                                 $('#deleteModal').modal('hide');
                                 $('#successDeleteModal').modal('show');
                                 $('#content-area').load('../views/order/order.php');
+                                table.clear().destroy();
+                                table = $('#dataTable').DataTable();
                             } else {
                                 alert("Gagal menghapus data.");
                             }

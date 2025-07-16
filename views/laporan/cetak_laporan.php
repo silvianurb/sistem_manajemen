@@ -10,6 +10,22 @@ require_once('../../config/config.php');
 
 $month = isset($_GET['month']) ? $_GET['month'] : date('m');
 
+// Query untuk mendapatkan tanggal pertama dan terakhir berdasarkan bulan yang dipilih
+$queryTanggal = "SELECT MIN(tanggal_invoice) AS tanggal_awal, MAX(tanggal_invoice) AS tanggal_akhir
+                 FROM invoice WHERE MONTH(tanggal_invoice) = '$month'";
+
+$resultTanggal = mysqli_query($conn, $queryTanggal);
+$rowTanggal = mysqli_fetch_assoc($resultTanggal);
+
+// Pastikan data tanggal ditemukan
+if ($rowTanggal) {
+    $tanggal_awal = $rowTanggal['tanggal_awal'];
+    $tanggal_akhir = $rowTanggal['tanggal_akhir'];
+} else {
+    echo 'no_data';
+    exit;
+}
+
 $query = "SELECT idInvoice, tanggal_invoice, nama_barang, nama_pelanggan, total_bayar
           FROM invoice WHERE MONTH(tanggal_invoice) = '$month'";
 
@@ -60,6 +76,12 @@ $html = "
             text-decoration: underline;
             margin-bottom: 10px;
         }
+        .date-range {
+            font-size: 12px;
+            text-align: left;
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -100,6 +122,8 @@ $html = "
         <div class='divider'></div>
 
         <div class='document-title'>Laporan Invoice Bulan " . date("F", mktime(0, 0, 0, $month, 10)) . " Tahun " . date('Y') . "</div>
+        <br>
+        <div class='date-range'>Laporan yang dicetak di bulan ini mencakup tanggal " . date("d F Y", strtotime($tanggal_awal)) . " hingga " . date("d F Y", strtotime($tanggal_akhir)) . "</div>
 
         <table>
             <thead>
@@ -112,6 +136,8 @@ $html = "
                 </tr>
             </thead>
             <tbody>";
+
+
 
 while ($row = mysqli_fetch_assoc($result)) {
     $totalBayar += $row['total_bayar'];

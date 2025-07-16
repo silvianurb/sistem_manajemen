@@ -53,7 +53,7 @@ if (!$result) {
                                 <td><?php echo $row['idSuratJalan']; ?></td>
                                 <td><?php echo $row['nama_pelanggan']; ?></td>
                                 <td><?php echo $row['nama_barang']; ?></td>
-                               <td><?php echo "Rp " . number_format($row['total_bayar'], 0, ',', '.'); ?></td>
+                                <td><?php echo "Rp " . number_format($row['total_bayar'], 0, ',', '.'); ?></td>
                                 <td>
                                     <a href="javascript:void(0);" class="btn btn-primary btn-sm printBtn"
                                         data-id="<?php echo $row['idInvoice']; ?>">
@@ -551,6 +551,8 @@ if (!$result) {
                             $('#successAddModal').modal('show'); // Show success modal
                             $('#invoiceModal').modal('hide'); // Hide the add invoice modal
                             $('#content-area').load('../views/invoice/invoice.php');
+                            table.clear().destroy();
+                            table = $('#dataTable').DataTable();
                         } else {
                             alert('Gagal menyimpan data: ' + response); // Handle error
                         }
@@ -620,6 +622,8 @@ if (!$result) {
                         if (response.trim() === "success") {
                             $('#successEditModal').modal('show');
                             $('#content-area').load('../views/invoice/invoice.php');
+                            table.clear().destroy();
+                            table = $('#dataTable').DataTable();
                             $('#editInvoiceModal').modal('hide');
                         } else {
                             alert('Gagal mengubah data: ' + response);
