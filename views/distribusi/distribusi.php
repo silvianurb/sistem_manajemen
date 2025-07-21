@@ -223,8 +223,6 @@ check_login();
                             $('#editSuratJalanModal').modal('hide');
                             $('#successEditModal').modal('show');
                             $('#content-area').load('../views/distribusi/distribusi.php');
-                            table.clear().destroy();
-                            table = $('#dataTable').DataTable();
                         } else {
                             alert('Terjadi kesalahan saat memperbarui data.');
                         }

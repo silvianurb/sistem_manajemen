@@ -551,8 +551,6 @@ if (!$result) {
                             $('#successAddModal').modal('show'); // Show success modal
                             $('#invoiceModal').modal('hide'); // Hide the add invoice modal
                             $('#content-area').load('../views/invoice/invoice.php');
-                            table.clear().destroy();
-                            table = $('#dataTable').DataTable();
                         } else {
                             alert('Gagal menyimpan data: ' + response); // Handle error
                         }
@@ -622,8 +620,6 @@ if (!$result) {
                         if (response.trim() === "success") {
                             $('#successEditModal').modal('show');
                             $('#content-area').load('../views/invoice/invoice.php');
-                            table.clear().destroy();
-                            table = $('#dataTable').DataTable();
                             $('#editInvoiceModal').modal('hide');
                         } else {
                             alert('Gagal mengubah data: ' + response);
