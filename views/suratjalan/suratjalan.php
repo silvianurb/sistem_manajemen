@@ -350,150 +350,161 @@ check_login();
 
     <script>
         $(document).ready(function () {
+            // Inisialisasi DataTable
             $('#dataTable').DataTable();
-            // Menampilkan data secara otomatis setelah pilih ID Order
-            $('#idOrder').change(function () {
-                var idOrder = $(this).val();
-                if (idOrder != "") {
-                    $.ajax({
-                        url: 'suratjalan/get_order_data.php',
-                        type: 'GET',
-                        data: { idOrder: idOrder },
-                        success: function (response) {
-                            console.log(response);
-                            var data = JSON.parse(response);
-                            if (data.error) {
-                                alert(data.error);
-                            } else {
-                                $('#namaBarang').val(data.namaBarang);
-                                $('#namaPelanggan').val(data.namaPelanggan);
-                            }
-                        },
-                        error: function () {
-                            alert("Gagal mengambil data order.");
-                        }
-                    });
-                }
-            });
 
-            // Insert Data
-            $('#suratJalanForm').submit(function (e) {
-                e.preventDefault();
+            // Menangani perubahan ID Order
+            $('#idOrder').change(handleOrderChange);
 
-                // Kalau valid, lanjut submit AJAX
-                var formData = $(this).serialize();
-                console.log(formData);
-                $.ajax({
-                    url: 'suratjalan/add.php',
-                    type: 'POST',
-                    data: formData,
-                    success: function (response) {
-                        console.log(response);
-                        $('#successAddModal').modal('show');
-                        $('#content-area').load('../views/suratjalan/suratjalan.php');
-                        $('#suratJalanModal').modal('hide');
-                    },
-                    error: function (xhr, status, error) {
-                        alert("Terjadi kesalahan saat menyimpan Surat Jalan.");
-                    }
-                });
-            });
+            // Menangani pengiriman form Surat Jalan
+            $('#suratJalanForm').submit(handleFormSubmit);
 
-            // Delete Data
-            $(document).on('click', '.deleteBtn', function () {
-                var id = $(this).data('id');
-                $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
-                $('#deleteModal').modal('show');
-                $('#deleteConfirmBtn').click(function () {
-                    $.ajax({
-                        url: 'suratjalan/delete.php?id=' + id,
-                        type: 'GET',
-                        success: function (response) {
-                            if (response.trim() == "success") {
-                                $('#deleteModal').modal('hide');
-                                $('#successDeleteModal').modal('show');
-                                $('#content-area').load('../views/suratjalan/suratjalan.php');
-                            } else {
-                                alert("Data Sudah Terdaftar Invoice");
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            alert("Terjadi kesalahan saat menghapus data.");
-                        }
-                    });
-                });
-            });
+            // Menangani penghapusan data
+            $(document).on('click', '.deleteBtn', handleDelete);
 
-            // Cetak Data
-            $('.printBtn').click(function () {
-                var idSuratJalan = $(this).data('id');
-                $.ajax({
-                    url: 'suratjalan/cetak_pdf.php',
-                    type: 'GET',
-                    data: { id: idSuratJalan },
-                    success: function (response) {
-                        var fileURL = response;
-                        window.open(fileURL, '_blank');
-                    },
-                    error: function () {
-                        alert("Terjadi kesalahan saat mencetak PDF.");
-                    }
-                });
-            });
+            // Menangani cetak PDF
+            $('.printBtn').click(handlePrint);
 
-            // Edit Data
-            $(document).on('click', '.editBtn', function () {
-                // Mengambil data dari atribut data- yang ada pada tombol edit
-                var idSuratJalan = $(this).data('id');
-                var tanggalSuratJalan = $(this).data('tanggal');
-                var sizeS = $(this).data('size-s');
-                var sizeM = $(this).data('size-m');
-                var sizeL = $(this).data('size-l');
-                var sizeXL = $(this).data('size-xl');
-                var sizeXXL = $(this).data('size-xxl');
-                var statusPengiriman = $(this).data('status');
-
-                // Menyisipkan data yang diambil ke dalam modal
-                $('#editIdSuratJalan').val(idSuratJalan);
-                $('#editTanggalSuratJalan').val(tanggalSuratJalan);
-                $('#editSizeS').val(sizeS);
-                $('#editSizeM').val(sizeM);
-                $('#editSizeL').val(sizeL);
-                $('#editSizeXL').val(sizeXL);
-                $('#editSizeXXL').val(sizeXXL);
-                $('#editStatusPengiriman').val(statusPengiriman);
-
-                // Menampilkan modal untuk melakukan edit
-                $('#editSuratJalanModal').modal('show');
-            });
+            // Menangani edit data
+            $(document).on('click', '.editBtn', handleEdit);
 
             // Menangani pengiriman form edit
-            $('#editSuratJalanForm').submit(function (e) {
-                e.preventDefault();
-                var formData = $(this).serialize();
+            $('#editSuratJalanForm').submit(handleEditSubmit);
+        });
+
+        // Fungsi untuk menangani perubahan ID Order
+        function handleOrderChange() {
+            var idOrder = $(this).val();
+            if (idOrder != "") {
                 $.ajax({
-                    url: 'suratjalan/edit.php',
-                    type: 'POST',
-                    data: formData,
+                    url: 'suratjalan/get_order_data.php',
+                    type: 'GET',
+                    data: { idOrder: idOrder },
                     success: function (response) {
-                        console.log(response); // Menambahkan log untuk melihat respons yang diterima
-                        try {
-                            var data = JSON.parse(response);
-                            if (data.success) {
-                                $('#editSuratJalanModal').modal('hide');
-                                $('#successEditModal').modal('show');
-                                $('#content-area').load('../views/suratjalan/suratjalan.php');
-                            } else {
-                                alert('Terjadi kesalahan saat memperbarui data.');
-                            }
-                        } catch (e) {
-                            console.error("Error parsing JSON: ", e);
-                            alert("Terjadi kesalahan saat menerima respons dari server.");
+                        var data = JSON.parse(response);
+                        if (data.error) {
+                            alert(data.error);
+                        } else {
+                            $('#namaBarang').val(data.namaBarang);
+                            $('#namaPelanggan').val(data.namaPelanggan);
                         }
+                    },
+                    error: function () {
+                        alert("Gagal mengambil data order.");
+                    }
+                });
+            }
+        }
+
+        // Fungsi untuk menangani pengiriman form Surat Jalan
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            var formData = $(this).serialize();
+            $.ajax({
+                url: 'suratjalan/add.php',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    $('#successAddModal').modal('show');
+                    $('#content-area').load('../views/suratjalan/suratjalan.php');
+                    $('#suratJalanModal').modal('hide');
+                },
+                error: function () {
+                    alert("Terjadi kesalahan saat menyimpan Surat Jalan.");
+                }
+            });
+        }
+
+        // Fungsi untuk menangani penghapusan data
+        function handleDelete() {
+            var id = $(this).data('id');
+            $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
+            $('#deleteModal').modal('show');
+            $('#deleteConfirmBtn').click(function () {
+                $.ajax({
+                    url: 'suratjalan/delete.php?id=' + id,
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.trim() == "success") {
+                            $('#deleteModal').modal('hide');
+                            $('#successDeleteModal').modal('show');
+                            $('#content-area').load('../views/suratjalan/suratjalan.php');
+                        } else {
+                            alert("Data Sudah Terdaftar Invoice");
+                        }
+                    },
+                    error: function () {
+                        alert("Terjadi kesalahan saat menghapus data.");
                     }
                 });
             });
-        });
+        }
+
+        // Fungsi untuk menangani cetak PDF
+        function handlePrint() {
+            var idSuratJalan = $(this).data('id');
+            $.ajax({
+                url: 'suratjalan/cetak_pdf.php',
+                type: 'GET',
+                data: { id: idSuratJalan },
+                success: function (response) {
+                    window.open(response, '_blank');
+                },
+                error: function () {
+                    alert("Terjadi kesalahan saat mencetak PDF.");
+                }
+            });
+        }
+
+        // Fungsi untuk menangani edit data
+        function handleEdit() {
+            var idSuratJalan = $(this).data('id');
+            var tanggalSuratJalan = $(this).data('tanggal');
+            var sizeS = $(this).data('size-s');
+            var sizeM = $(this).data('size-m');
+            var sizeL = $(this).data('size-l');
+            var sizeXL = $(this).data('size-xl');
+            var sizeXXL = $(this).data('size-xxl');
+            var statusPengiriman = $(this).data('status');
+
+            $('#editIdSuratJalan').val(idSuratJalan);
+            $('#editTanggalSuratJalan').val(tanggalSuratJalan);
+            $('#editSizeS').val(sizeS);
+            $('#editSizeM').val(sizeM);
+            $('#editSizeL').val(sizeL);
+            $('#editSizeXL').val(sizeXL);
+            $('#editSizeXXL').val(sizeXXL);
+            $('#editStatusPengiriman').val(statusPengiriman);
+
+            $('#editSuratJalanModal').modal('show');
+        }
+
+        // Fungsi untuk menangani pengiriman form edit
+        function handleEditSubmit(e) {
+            e.preventDefault();
+            var formData = $(this).serialize();
+            $.ajax({
+                url: 'suratjalan/edit.php',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    try {
+                        var data = JSON.parse(response);
+                        if (data.success) {
+                            $('#editSuratJalanModal').modal('hide');
+                            $('#successEditModal').modal('show');
+                            $('#content-area').load('../views/suratjalan/suratjalan.php');
+                        } else {
+                            alert('Terjadi kesalahan saat memperbarui data.');
+                        }
+                    } catch (e) {
+                        console.error("Error parsing JSON: ", e);
+                        alert("Terjadi kesalahan saat menerima respons dari server.");
+                    }
+                }
+            });
+        }
+
     </script>
 
 </body>

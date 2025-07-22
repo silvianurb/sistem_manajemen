@@ -327,7 +327,6 @@ check_login();
                     });
                 });
             });
-
         });
     </script>
 
