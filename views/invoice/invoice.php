@@ -107,11 +107,16 @@ if (!$result) {
                             <select class="form-control" id="idSuratJalan" name="idSuratJalan" required>
                                 <option value="">Pilih ID Surat Jalan</option>
                                 <?php
-                                // Ambil ID Surat Jalan yang belum terpakai
-                                $query = "SELECT idsuratjalan FROM suratjalan WHERE idsuratjalan NOT IN (SELECT idSuratJalan FROM invoice)";
+                                // Ambil ID Surat Jalan yang memiliki status_pengiriman 'Terkirim' dan belum terpakai
+                                $query = "SELECT idsuratjalan 
+          FROM suratjalan 
+          WHERE status_pengiriman = 'Terkirim' 
+          AND idsuratjalan NOT IN (SELECT idSuratJalan FROM invoice)";
+
                                 $result = mysqli_query($conn, $query);
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     $idSuratJalan = $row['idsuratjalan'];
+
                                     // Cek apakah ID Surat Jalan sudah digunakan
                                     $isUsed = false;
                                     $checkQuery = "SELECT COUNT(*) AS count FROM invoice WHERE idSuratJalan = '$idSuratJalan'";
@@ -120,6 +125,7 @@ if (!$result) {
                                     if ($checkRow['count'] > 0) {
                                         $isUsed = true; // ID Surat Jalan sudah digunakan
                                     }
+
                                     if ($isUsed) {
                                         echo "<option value='$idSuratJalan' style='color: grey;' disabled> $idSuratJalan (Sudah Terdaftar) </option>";
                                     } else {
@@ -127,6 +133,7 @@ if (!$result) {
                                     }
                                 }
                                 ?>
+
                             </select>
                         </div>
 

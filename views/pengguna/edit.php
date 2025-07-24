@@ -9,11 +9,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password']; 
     $role = $_POST['role'];
 
-    // Hash password sebelum disimpan, memotong hasil hash
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    $updated_at = date('Y-m-d H:i:s');
+    // Jika password tidak kosong, hash password dan update
+    if (!empty($password)) {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $query = "UPDATE users SET username = '$username', namaUser = '$namaUser', password = '$hashedPassword', role = '$role' WHERE id = '$id'";
+    } else {
+        // Jika password kosong, hanya update selain password
+        $query = "UPDATE users SET username = '$username', namaUser = '$namaUser', role = '$role' WHERE id = '$id'";
+    }
 
-    $query = "UPDATE users SET username = '$username', namaUser = '$namaUser', password = '$hashedPassword', role = '$role', created_at = '$updated_at' WHERE id = '$id'";
+    // Menambahkan update timestamp
+    $updated_at = date('Y-m-d H:i:s');
+    $query .= ", updated_at = '$updated_at'";
 
     if (mysqli_query($conn, $query)) {
         echo "Data pengguna berhasil diperbarui!";
@@ -37,4 +44,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
-

@@ -49,8 +49,14 @@ session_start();
                 </div>
                 <div class="form-group mb-3">
                   <label class="label" for="password">Password</label>
-                  <input type="password" class="form-control" id="password" name="password" placeholder="Password"
-                    required>
+                  <div class="input-group">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                    <div class="input-group-append">
+                      <span class="input-group-text" id="togglePassword">
+                        <i class="fa fa-eye"></i>
+                      </span>
+                    </div>
+                  </div>
                 </div>
                 <div class="form-group">
                   <button type="submit" class="form-control btn btn-primary submit px-3">Masuk</button>
@@ -72,6 +78,21 @@ session_start();
   <script src="../../assets/js/popper.js"></script>
   <script src="../../assets/js/bootstrap.min.js"></script>
   <script src="../../assets/js/main.js"></script>
+
+  <script>
+    // Toggle Password visibility
+    const togglePassword = document.querySelector("#togglePassword");
+    const password = document.querySelector("#password");
+
+    togglePassword.addEventListener("click", function (e) {
+      // Toggle the type attribute
+      const type = password.type === "password" ? "text" : "password";
+      password.type = type;
+
+      // Toggle the eye icon
+      this.innerHTML = type === "password" ? '<i class="fa fa-eye"></i>' : '<i class="fa fa-eye-slash"></i>';
+    });
+  </script>
 </body>
 
 </html>

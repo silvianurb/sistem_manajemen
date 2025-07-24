@@ -133,9 +133,11 @@ check_login();
                             <input type="text" class="form-control" id="editNama" name="namaUser" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="editPassword" name="password" required>
+                            <label for="editPassword" class="form-label">Password <small class="text-muted">(Kosongkan
+                                    jika tidak ingin mengubah password)</small></label>
+                            <input type="password" class="form-control" id="editPassword" name="password">
                         </div>
+
                         <div class="mb-3">
                             <label for="editRole" class="form-label">Role</label>
                             <select class="form-control" id="editRole" name="role" required>
