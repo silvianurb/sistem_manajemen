@@ -353,19 +353,15 @@ check_login();
             // Inisialisasi DataTable
             $('#dataTable').DataTable();
 
-            // Menangani perubahan ID Order
+           
             $('#idOrder').change(handleOrderChange);
-
-            // Menangani pengiriman form Surat Jalan
             $('#suratJalanForm').submit(handleFormSubmit);
 
-            // Menangani penghapusan data
             $(document).on('click', '.deleteBtn', handleDelete);
 
-            // Menangani cetak PDF
             $('.printBtn').click(handlePrint);
 
-            // Menangani edit data
+
             $(document).on('click', '.editBtn', handleEdit);
 
             // Menangani pengiriman form edit
@@ -405,9 +401,10 @@ check_login();
                 type: 'POST',
                 data: formData,
                 success: function (response) {
-                    $('#successAddModal').modal('show');
-                    $('#content-area').load('../views/suratjalan/suratjalan.php');
                     $('#suratJalanModal').modal('hide');
+                    $('#successAddModal').modal('show');
+                    $('.modal-backdrop').remove();
+                    $('#content-area').load('../views/suratjalan/suratjalan.php');
                 },
                 error: function () {
                     alert("Terjadi kesalahan saat menyimpan Surat Jalan.");
@@ -428,6 +425,7 @@ check_login();
                         if (response.trim() == "success") {
                             $('#deleteModal').modal('hide');
                             $('#successDeleteModal').modal('show');
+                            $('#content-area').empty();
                             $('#content-area').load('../views/suratjalan/suratjalan.php');
                         } else {
                             alert("Data Sudah Terdaftar Invoice");

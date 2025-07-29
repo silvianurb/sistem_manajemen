@@ -406,9 +406,10 @@ check_login();
                     type: 'POST',
                     data: formData,
                     success: function (response) {
-                        $('#successAddModal').modal('show');
-                        $('#content-area').load('../views/order/order.php');
                         $('#addModal').modal('hide');
+                        $('.modal-backdrop').remove();
+                        $('#successAddModal').modal('show');
+                        $('#content-area').load('../views/order/order.php'); 
                     },
                     error: function (xhr, status, error) {
                         alert("Data gagal ditambahkan.");
@@ -489,6 +490,7 @@ check_login();
                             if (response.trim() == "success") {
                                 $('#deleteModal').modal('hide');
                                 $('#successDeleteModal').modal('show');
+                                $('#content-area').empty();
                                 $('#content-area').load('../views/order/order.php');
                             } else {
                                 alert("Gagal menghapus data.");

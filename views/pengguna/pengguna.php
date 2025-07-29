@@ -257,6 +257,7 @@ check_login();
                     data: formData,
                     success: function (response) {
                         $('#addModal').modal('hide');
+                        $('.modal-backdrop').remove();
                         $('#successAddModal').modal('show');
                         $('#content-area').load('../views/pengguna/pengguna.php');
                     },
@@ -331,6 +332,7 @@ check_login();
                             if (response.trim() == "success") {
                                 $('#deleteModal').modal('hide');
                                 $('#successDeleteModal').modal('show');
+                                $('#content-area').empty();
                                 $('#content-area').load('../views/pengguna/pengguna.php');
                             } else {
                                 alert("Gagal menghapus data.");

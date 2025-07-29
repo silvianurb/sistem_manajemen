@@ -547,21 +547,22 @@ if (!$result) {
                 var formData = $(this).serialize(); // Serialize form data
 
                 $.ajax({
-                    url: 'invoice/add.php', // PHP script to handle data insertion
+                    url: 'invoice/add.php',
                     type: 'POST',
                     data: formData,
                     success: function (response) {
-                        console.log(response); // Debugging to check the response
+                        console.log(response); 
                         if (response.trim() === "success") {
-                            $('#invoiceModal').modal('hide'); // Hide the add invoice modal
-                            $('#successAddModal').modal('show'); // Show success modal
+                            $('#invoiceModal').modal('hide'); 
+                            $('#addModal').modal('hide');
+                            $('#successAddModal').modal('show'); 
                             $('#content-area').load('../views/invoice/invoice.php');
                         } else {
-                            alert('Gagal menyimpan data: ' + response); // Handle error
+                            alert('Gagal menyimpan data: ' + response); 
                         }
                     },
                     error: function () {
-                        alert('Terjadi kesalahan saat menyimpan data.'); // Handle AJAX error
+                        alert('Terjadi kesalahan saat menyimpan data.'); 
                     }
                 });
             });

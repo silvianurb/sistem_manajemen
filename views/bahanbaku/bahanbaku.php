@@ -26,7 +26,6 @@ check_login();
             <h6 class="m-0 font-weight-bold text-primary">Tabel Data Bahan Baku</h6>
         </div>
         <div class="card-body">
-            <!-- Tambah Data Button placed here -->
             <div class="mb-3">
                 <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">
                     <i class="fa fa-plus-circle"></i> Tambah Bahan Baku
@@ -251,6 +250,7 @@ check_login();
                     data: formData,
                     success: function (response) {
                         $('#addModal').modal('hide');
+                        $('.modal-backdrop').remove();
                         $('#successAddModal').modal('show');
                         $('#content-area').load('../views/bahanbaku/bahanbaku.php');
                     },
@@ -310,6 +310,7 @@ check_login();
                             if (response.trim() == "success") {
                                 $('#deleteModal').modal('hide');
                                 $('#successDeleteModal').modal('show');
+                                $('#content-area').empty();
                                 $('#content-area').load('../views/bahanbaku/bahanbaku.php');
                             } else {
                                 alert("Gagal menghapus data.");
