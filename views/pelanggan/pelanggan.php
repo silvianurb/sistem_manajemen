@@ -235,7 +235,6 @@ check_login();
 
     <script>
         $(document).ready(function () {
-            // DataTable Initialization
             $('#dataTable').DataTable();
 
             // Insert Data
@@ -255,9 +254,9 @@ check_login();
                     type: 'POST',
                     data: formData,
                     success: function (response) {
-                        $('#successAddModal').modal('show');
-                        $('#content-area').load('../views/pelanggan/pelanggan.php');
                         $('#addModal').modal('hide');
+                        $('#successAddModal').modal('show');
+                        $('#content-area').load('../views/pelanggan/pelanggan.php');                  
                     },
                     error: function (xhr, status, error) {
                         $('#failAddModal').modal('show');
@@ -267,7 +266,6 @@ check_login();
 
             // Edit Data
             $(document).on('click', '.editBtn', function () {
-                // Ambil data dari atribut data-*
                 var id = $(this).data('id');
                 var nama = $(this).data('nama');
                 var alamat = $(this).data('alamat');

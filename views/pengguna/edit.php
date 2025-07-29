@@ -1,6 +1,5 @@
 <?php
 require_once('../../config/config.php');
-session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'];  
@@ -18,13 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $query = "UPDATE users SET username = '$username', namaUser = '$namaUser', role = '$role' WHERE id = '$id'";
     }
 
-    // Menambahkan update timestamp
-    $updated_at = date('Y-m-d H:i:s');
-    $query .= ", updated_at = '$updated_at'";
-
+    // Eksekusi query
     if (mysqli_query($conn, $query)) {
         echo "Data pengguna berhasil diperbarui!";
     } else {
+        // Jika gagal, tampilkan error dengan pesan yang lebih spesifik
         echo "Error: " . mysqli_error($conn);
     }
 } else {

@@ -286,7 +286,9 @@ check_login();
                 e.preventDefault();
 
                 var password = $('#editPassword').val();
-                if (password.length < 8) {
+
+                // Hanya validasi password jika diisi, jika tidak diisi, biarkan
+                if (password && password.length < 8) {
                     alert('Password harus terdiri dari minimal 8 karakter.');
                     return false;
                 }
@@ -298,24 +300,28 @@ check_login();
                     type: 'POST',
                     data: formData,
                     success: function (response) {
-                        $('#successEditModal').modal('show');
-                        $('#content-area').load('../views/pengguna/pengguna.php');
-                        $('#editModal').modal('hide');
+                        // Periksa apakah respons berisi pesan sukses atau pesan kesalahan
+                        if (response.includes("Data pengguna berhasil diperbarui!")) {
+                            $('#editModal').modal('hide');
+                            $('#successEditModal').modal('show');
+                            $('#content-area').load('../views/pengguna/pengguna.php');
+                        } else {
+                            alert("Gagal memperbarui data: " + response);
+                        }
                     },
                     error: function (xhr, status, error) {
-                        alert("Data gagal diperbarui.");
+                        alert("Terjadi kesalahan saat memperbarui data.");
                     }
                 });
             });
+
 
             // Delete Data
             $(document).on('click', '.deleteBtn', function () {
                 var id = $(this).data('id');
 
                 $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
-
                 $('#deleteModal').modal('show');
-
                 $('#deleteConfirmBtn').click(function () {
                     $.ajax({
                         url: 'pengguna/delete.php?id=' + id,

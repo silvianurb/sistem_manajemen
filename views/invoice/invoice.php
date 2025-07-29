@@ -473,10 +473,8 @@ if (!$result) {
                 var totalXL = sizeXL * hargaXL;
                 var totalXXL = sizeXXL * hargaXXL;
 
-                // Total keseluruhan
                 var totalBayar = totalS + totalM + totalL + totalXL + totalXXL;
 
-                // Format mata uang Rupiah
                 var formatRupiah = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' });
 
                 // Masukkan nilai ke input dan format menjadi rupiah
@@ -555,8 +553,8 @@ if (!$result) {
                     success: function (response) {
                         console.log(response); // Debugging to check the response
                         if (response.trim() === "success") {
-                            $('#successAddModal').modal('show'); // Show success modal
                             $('#invoiceModal').modal('hide'); // Hide the add invoice modal
+                            $('#successAddModal').modal('show'); // Show success modal
                             $('#content-area').load('../views/invoice/invoice.php');
                         } else {
                             alert('Gagal menyimpan data: ' + response); // Handle error
@@ -570,15 +568,15 @@ if (!$result) {
 
             // Edit Data
             $(document).on('click', '.editBtn', function () {
-                var idInvoice = $(this).data('id'); // Ambil ID Invoice dari atribut data-id
-                console.log(idInvoice);  // Debugging: cek ID yang diambil
+                var idInvoice = $(this).data('id'); 
+                console.log(idInvoice);  
                 $.ajax({
-                    url: 'invoice/get_inv_data.php', // Ganti URL ke get_inv_data.php
+                    url: 'invoice/get_inv_data.php', 
                     type: 'GET',
-                    data: { idInvoice: idInvoice },  // Kirimkan idInvoice ke get_inv_data.php
+                    data: { idInvoice: idInvoice },  
                     success: function (response) {
-                        console.log(response);  // Debugging: periksa respons dari server
-                        var data = JSON.parse(response); // Parse response as JSON
+                        console.log(response);  
+                        var data = JSON.parse(response); 
 
                         // Isi modal dengan data yang diterima
                         $('#editIdInvoice').val(data.idInvoice);
@@ -616,18 +614,18 @@ if (!$result) {
             $('#editInvoiceForm').submit(function (e) {
                 e.preventDefault(); // Mencegah refresh halaman
 
-                var formData = $(this).serialize(); // Ambil data form
+                var formData = $(this).serialize(); 
 
                 $.ajax({
-                    url: 'invoice/edit.php', // Kirim ke edit.php untuk melakukan update
+                    url: 'invoice/edit.php', 
                     type: 'POST',
                     data: formData,
                     success: function (response) {
                         console.log(response);
                         if (response.trim() === "success") {
+                            $('#editInvoiceModal').modal('hide');
                             $('#successEditModal').modal('show');
                             $('#content-area').load('../views/invoice/invoice.php');
-                            $('#editInvoiceModal').modal('hide');
                         } else {
                             alert('Gagal mengubah data: ' + response);
                         }

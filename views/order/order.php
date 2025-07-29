@@ -503,7 +503,6 @@ check_login();
         });
     </script>
 
-
 </body>
 
 </html>

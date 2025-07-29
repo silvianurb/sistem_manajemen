@@ -230,14 +230,9 @@ check_login();
         </div>
     </div>
 
-    <!-- Panggil jQuery terlebih dahulu -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Kemudian DataTable -->
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
-
-    <!-- Terakhir Bootstrap JS dan Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -255,9 +250,9 @@ check_login();
                     type: 'POST',
                     data: formData,
                     success: function (response) {
+                        $('#addModal').modal('hide');
                         $('#successAddModal').modal('show');
                         $('#content-area').load('../views/bahanbaku/bahanbaku.php');
-                        $('#addModal').modal('hide');
                     },
                     error: function (xhr, status, error) {
                         alert("Data gagal ditambahkan.");
@@ -291,9 +286,9 @@ check_login();
                     type: 'POST',
                     data: formData,
                     success: function (response) {
+                        $('#editModal').modal('hide');
                         $('#successEditModal').modal('show');
                         $('#content-area').load('../views/bahanbaku/bahanbaku.php');
-                        $('#editModal').modal('hide');
                     },
                     error: function (xhr, status, error) {
                         alert("Data gagal diperbarui.");
@@ -302,28 +297,26 @@ check_login();
             });
 
             // Delete Data
-            $(document).ready(function () {
-                $(document).on('click', '.deleteBtn', function () {
-                    var id = $(this).data('id');
-                    $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
-                    $('#deleteModal').modal('show');
-                    $('#deleteConfirmBtn').click(function () {
-                        $.ajax({
-                            url: 'bahanbaku/delete.php?id=' + id,
-                            type: 'GET',
-                            success: function (response) {
-                                if (response.trim() == "success") {
-                                    $('#deleteModal').modal('hide');
-                                    $('#successDeleteModal').modal('show');
-                                    $('#content-area').load('../views/bahanbaku/bahanbaku.php');
-                                } else {
-                                    alert("Gagal menghapus data.");
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                alert("Terjadi kesalahan saat menghapus data.");
+            $(document).on('click', '.deleteBtn', function () {
+                var id = $(this).data('id');
+                $('#deleteConfirmBtn').attr('href', 'javascript:void(0);');
+                $('#deleteModal').modal('show');
+                $('#deleteConfirmBtn').click(function () {
+                    $.ajax({
+                        url: 'bahanbaku/delete.php?id=' + id,
+                        type: 'GET',
+                        success: function (response) {
+                            if (response.trim() == "success") {
+                                $('#deleteModal').modal('hide');
+                                $('#successDeleteModal').modal('show');
+                                $('#content-area').load('../views/bahanbaku/bahanbaku.php');
+                            } else {
+                                alert("Gagal menghapus data.");
                             }
-                        });
+                        },
+                        error: function (xhr, status, error) {
+                            alert("Terjadi kesalahan saat menghapus data.");
+                        }
                     });
                 });
             });
