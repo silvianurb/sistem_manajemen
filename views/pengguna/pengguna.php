@@ -28,7 +28,7 @@ check_login();
         <div class="card-body">
             <!-- Tambah Data Button placed here -->
             <div class="mb-3">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">
                     <i class="fa fa-plus-circle"></i> Tambah Pengguna
                 </button>
             </div>
@@ -238,6 +238,7 @@ check_login();
     <script>
         $(document).ready(function () {
             $('#dataTable').DataTable();
+
             // Insert Data
             $('#addForm').submit(function (e) {
                 e.preventDefault();
@@ -255,9 +256,9 @@ check_login();
                     type: 'POST',
                     data: formData,
                     success: function (response) {
+                        $('#addModal').modal('hide');
                         $('#successAddModal').modal('show');
                         $('#content-area').load('../views/pengguna/pengguna.php');
-                        $('#addModal').modal('hide');
                     },
                     error: function (xhr, status, error) {
                         alert("Data gagal ditambahkan.");
@@ -296,11 +297,10 @@ check_login();
                 var formData = $(this).serialize();
 
                 $.ajax({
-                    url: 'pengguna/edit.php',  // Ubah URL sesuai dengan lokasi file edit.php
+                    url: 'pengguna/edit.php', 
                     type: 'POST',
                     data: formData,
                     success: function (response) {
-                        // Periksa apakah respons berisi pesan sukses atau pesan kesalahan
                         if (response.includes("Data pengguna berhasil diperbarui!")) {
                             $('#editModal').modal('hide');
                             $('#successEditModal').modal('show');
@@ -327,6 +327,7 @@ check_login();
                         url: 'pengguna/delete.php?id=' + id,
                         type: 'GET',
                         success: function (response) {
+                            console.log(response);  // Debug respons server
                             if (response.trim() == "success") {
                                 $('#deleteModal').modal('hide');
                                 $('#successDeleteModal').modal('show');
@@ -336,6 +337,7 @@ check_login();
                             }
                         },
                         error: function (xhr, status, error) {
+                            console.log(error);  // Debug error
                             alert("Terjadi kesalahan saat menghapus data.");
                         }
                     });

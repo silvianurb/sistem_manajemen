@@ -27,7 +27,7 @@ if (!$result) {
         </div>
         <div class="card-body">
             <div class="mb-3">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#invoiceModal">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#invoiceModal">
                     <i class="fa fa-plus-circle"></i> Tambah Invoice
                 </button>
             </div>
@@ -61,8 +61,8 @@ if (!$result) {
                                     </a>
 
                                     <a href="javascript:void(0);" class="btn btn-warning btn-sm editBtn"
-                                        data-id="<?php echo $row['idInvoice']; ?>" data-bs-toggle="modal"
-                                        data-bs-target="#editInvoiceModal">
+                                        data-id="<?php echo $row['idInvoice']; ?>" data-toggle="modal"
+                                        data-target="#editInvoiceModal">
                                         <i class="fas fa-edit"></i>
                                     </a>
 
@@ -568,15 +568,15 @@ if (!$result) {
 
             // Edit Data
             $(document).on('click', '.editBtn', function () {
-                var idInvoice = $(this).data('id'); 
-                console.log(idInvoice);  
+                var idInvoice = $(this).data('id');
+                console.log(idInvoice);
                 $.ajax({
-                    url: 'invoice/get_inv_data.php', 
+                    url: 'invoice/get_inv_data.php',
                     type: 'GET',
-                    data: { idInvoice: idInvoice },  
+                    data: { idInvoice: idInvoice },
                     success: function (response) {
-                        console.log(response);  
-                        var data = JSON.parse(response); 
+                        console.log(response);
+                        var data = JSON.parse(response);
 
                         // Isi modal dengan data yang diterima
                         $('#editIdInvoice').val(data.idInvoice);
@@ -614,10 +614,10 @@ if (!$result) {
             $('#editInvoiceForm').submit(function (e) {
                 e.preventDefault(); // Mencegah refresh halaman
 
-                var formData = $(this).serialize(); 
+                var formData = $(this).serialize();
 
                 $.ajax({
-                    url: 'invoice/edit.php', 
+                    url: 'invoice/edit.php',
                     type: 'POST',
                     data: formData,
                     success: function (response) {
@@ -689,8 +689,6 @@ if (!$result) {
 
         });
     </script>
-
-
 
 </body>
 

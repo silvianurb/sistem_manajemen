@@ -33,7 +33,7 @@ check_login();
         </div>
         <div class="card-body">
             <div class="mb-3">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#suratJalanModal">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#suratJalanModal">
                     <i class="fa fa-plus-circle"></i> Tambah Surat Jalan
                 </button>
             </div>

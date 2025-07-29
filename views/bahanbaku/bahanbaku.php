@@ -28,7 +28,7 @@ check_login();
         <div class="card-body">
             <!-- Tambah Data Button placed here -->
             <div class="mb-3">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">
                     <i class="fa fa-plus-circle"></i> Tambah Bahan Baku
                 </button>
             </div>
@@ -306,6 +306,7 @@ check_login();
                         url: 'bahanbaku/delete.php?id=' + id,
                         type: 'GET',
                         success: function (response) {
+                            console.log(response);
                             if (response.trim() == "success") {
                                 $('#deleteModal').modal('hide');
                                 $('#successDeleteModal').modal('show');
