@@ -10,6 +10,7 @@
     <meta name="author" content="">
 
     <title>GEMILANG</title>
+    <link rel="icon" type="image/png" href="../assets/images/logo_cv.jpeg">
 
     <!-- Custom fonts for this template-->
     <link href="../assets/22/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
