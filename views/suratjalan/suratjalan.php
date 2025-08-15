@@ -118,7 +118,8 @@ check_login();
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="suratJalanModalLabel">Tambah Surat Jalan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" style="border:none;background:transparent;></button>
+                    <span aria-hidden="true">&times;</span>
                 </div>
                 <div class="modal-body">
                     <form id="suratJalanForm">

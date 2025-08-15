@@ -81,13 +81,17 @@ check_login();
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addModalLabel">Tambah Data Pelanggan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" style="border:none;background:transparent;></button>
+                    <span aria-hidden=" true">&times;</span>
                 </div>
                 <div class="modal-body">
                     <form id="addForm">
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama</label>
-                            <input type="text" class="form-control" id="nama" name="nama" required>
+                            <input type="text" class="form-control" id="nama" name="nama" required
+                                oninput="validateNama()">
+                            <span id="namaError" style="color: red; display: none;">Nama hanya boleh huruf dan
+                                spasi</span>
                         </div>
                         <div class="mb-3">
                             <label for="alamat" class="form-label">Alamat</label>
@@ -124,7 +128,10 @@ check_login();
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
                             <label for="editNama" class="form-label">Nama</label>
-                            <input type="text" class="form-control" id="editNama" name="nama" required>
+                            <input type="text" class="form-control" id="editNama" name="nama" required
+                                oninput="validateNamaEdit()">
+                            <span id="editNamaError" style="color: red; display: none;">Nama hanya boleh huruf dan
+                                spasi</span>
                         </div>
                         <div class="mb-3">
                             <label for="editAlamat" class="form-label">Alamat</label>
@@ -241,9 +248,15 @@ check_login();
             $('#addForm').submit(function (e) {
                 e.preventDefault();
 
+                // Validasi untuk nama
+                if (document.getElementById("namaError").style.display === "block") {
+                    alert("Nama hanya boleh huruf");
+                    return;
+                }
+
                 // Validasi untuk kontak
                 if (document.getElementById("kontakError").style.display === "block") {
-                    alert("Kontak harus berupa angka.");
+                    alert("Kontak harus berupa angka");
                     return;
                 }
 
@@ -257,7 +270,7 @@ check_login();
                         $('#addModal').modal('hide');
                         $('.modal-backdrop').remove();
                         $('#successAddModal').modal('show');
-                        $('#content-area').load('../views/pelanggan/pelanggan.php');                  
+                        $('#content-area').load('../views/pelanggan/pelanggan.php');
                     },
                     error: function (xhr, status, error) {
                         $('#failAddModal').modal('show');
@@ -287,12 +300,6 @@ check_login();
             // Edit Form Submit
             $('#editForm').submit(function (e) {
                 e.preventDefault();
-
-                // Validasi untuk kontak
-                if (document.getElementById("editKontakError").style.display === "block") {
-                    alert("Kontak harus berupa angka.");
-                    return;
-                }
 
                 var formData = $(this).serialize();
 
@@ -337,6 +344,26 @@ check_login();
                 });
             });
         });
+
+        // Validasi huruf untuk form tambah
+        function validateNama() {
+            var nama = document.getElementById("nama").value;
+            if (!/^[A-Za-z\s]+$/.test(nama)) { // Jika input bukan huruf atau spasi
+                document.getElementById("namaError").style.display = "block";
+            } else {
+                document.getElementById("namaError").style.display = "none";
+            }
+        }
+
+        function validateNamaEdit() {
+            var nama = document.getElementById("editNama").value;
+            if (!/^[A-Za-z\s]+$/.test(nama)) {
+                document.getElementById("editNamaError").style.display = "block";
+            } else {
+                document.getElementById("editNamaError").style.display = "none";
+            }
+        }
+
 
         // Fungsi validasi untuk kolom "Kontak" di form tambah
         function validateKontak() {

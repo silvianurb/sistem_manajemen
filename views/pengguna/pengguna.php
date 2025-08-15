@@ -82,7 +82,8 @@ check_login();
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addModalLabel">Tambah Data Pengguna</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" style="border:none;background:transparent;></button>
+                    <span aria-hidden=" true">&times;</span>
                 </div>
                 <div class="modal-body">
                     <form id="addForm">
@@ -92,7 +93,10 @@ check_login();
                         </div>
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama</label>
-                            <input type="text" class="form-control" id="nama" name="namaUser" required>
+                            <input type="text" class="form-control" id="nama" name="nama" required
+                                oninput="validateNama()">
+                            <span id="namaError" style="color: red; display: none;">Nama hanya boleh huruf dan
+                                spasi</span>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
@@ -130,7 +134,10 @@ check_login();
                         </div>
                         <div class="mb-3">
                             <label for="editNama" class="form-label">Nama</label>
-                            <input type="text" class="form-control" id="editNama" name="namaUser" required>
+                            <input type="text" class="form-control" id="editNama" name="nama" required
+                                oninput="validateNamaEdit()">
+                            <span id="editNamaError" style="color: red; display: none;">Nama hanya boleh huruf dan
+                                spasi</span>
                         </div>
                         <div class="mb-3">
                             <label for="editPassword" class="form-label">Password <small class="text-muted">(Kosongkan
@@ -243,6 +250,8 @@ check_login();
             $('#addForm').submit(function (e) {
                 e.preventDefault();
 
+
+
                 var password = $('#password').val();
                 if (password.length < 8) {
                     alert('Password harus terdiri dari minimal 8 karakter.');
@@ -298,7 +307,7 @@ check_login();
                 var formData = $(this).serialize();
 
                 $.ajax({
-                    url: 'pengguna/edit.php', 
+                    url: 'pengguna/edit.php',
                     type: 'POST',
                     data: formData,
                     success: function (response) {
@@ -346,6 +355,25 @@ check_login();
                 });
             });
         });
+
+        // Validasi huruf untuk form tambah
+        function validateNama() {
+            var nama = document.getElementById("nama").value;
+            if (!/^[A-Za-z\s]+$/.test(nama)) { // Jika input bukan huruf atau spasi
+                document.getElementById("namaError").style.display = "block";
+            } else {
+                document.getElementById("namaError").style.display = "none";
+            }
+        }
+
+        function validateNamaEdit() {
+            var nama = document.getElementById("editNama").value;
+            if (!/^[A-Za-z\s]+$/.test(nama)) {
+                document.getElementById("editNamaError").style.display = "block";
+            } else {
+                document.getElementById("editNamaError").style.display = "none";
+            }
+        }
     </script>
 
 </body>

@@ -85,7 +85,8 @@ if (!$result) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="invoiceModalLabel">Tambah Invoice</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" style="border:none;background:transparent;></button>
+                    <span aria-hidden="true">&times;</span>
                 </div>
                 <div class="modal-body">
                     <form id="invoiceForm">
@@ -140,39 +141,39 @@ if (!$result) {
                         <!-- Nama Pelanggan -->
                         <div class="mb-3">
                             <label for="namaPelanggan" class="form-label">Nama Pelanggan</label>
-                            <input type="text" class="form-control" id="namaPelanggan" name="namaPelanggan" required>
+                            <input type="text" class="form-control" id="namaPelanggan" name="namaPelanggan" readonly>
                         </div>
 
                         <!-- Nama Barang -->
                         <div class="mb-3">
                             <label for="namaBarang" class="form-label">Nama Barang</label>
-                            <input type="text" class="form-control" id="namaBarang" name="namaBarang" required>
+                            <input type="text" class="form-control" id="namaBarang" name="namaBarang" readonly>
                         </div>
 
                         <!-- Size Inputs -->
                         <div class="mb-3">
                             <label for="sizeS" class="form-label">Size S</label>
-                            <input type="number" class="form-control" id="sizeS" name="sizeS" value="0" required>
+                            <input type="number" class="form-control" id="sizeS" name="sizeS" value="0" readonly>
                         </div>
 
                         <div class="mb-3">
                             <label for="sizeM" class="form-label">Size M</label>
-                            <input type="number" class="form-control" id="sizeM" name="sizeM" value="0" required>
+                            <input type="number" class="form-control" id="sizeM" name="sizeM" value="0" readonly>
                         </div>
 
                         <div class="mb-3">
                             <label for="sizeL" class="form-label">Size L</label>
-                            <input type="number" class="form-control" id="sizeL" name="sizeL" value="0" required>
+                            <input type="number" class="form-control" id="sizeL" name="sizeL" value="0" readonly>
                         </div>
 
                         <div class="mb-3">
                             <label for="sizeXL" class="form-label">Size XL</label>
-                            <input type="number" class="form-control" id="sizeXL" name="sizeXL" value="0" required>
+                            <input type="number" class="form-control" id="sizeXL" name="sizeXL" value="0" readonly>
                         </div>
 
                         <div class="mb-3">
                             <label for="sizeXXL" class="form-label">Size XXL</label>
-                            <input type="number" class="form-control" id="sizeXXL" name="sizeXXL" value="0" required>
+                            <input type="number" class="form-control" id="sizeXXL" name="sizeXXL" value="0" readonly>
                         </div>
 
                         <!-- Harga per Size -->
@@ -551,18 +552,19 @@ if (!$result) {
                     type: 'POST',
                     data: formData,
                     success: function (response) {
-                        console.log(response); 
+                        console.log(response);
                         if (response.trim() === "success") {
-                            $('#invoiceModal').modal('hide'); 
+                            $('#invoiceModal').modal('hide');
                             $('#addModal').modal('hide');
-                            $('#successAddModal').modal('show'); 
+                            $('.modal-backdrop').remove();
+                            $('#successAddModal').modal('show');
                             $('#content-area').load('../views/invoice/invoice.php');
                         } else {
-                            alert('Gagal menyimpan data: ' + response); 
+                            alert('Gagal menyimpan data: ' + response);
                         }
                     },
                     error: function () {
-                        alert('Terjadi kesalahan saat menyimpan data.'); 
+                        alert('Terjadi kesalahan saat menyimpan data.');
                     }
                 });
             });
