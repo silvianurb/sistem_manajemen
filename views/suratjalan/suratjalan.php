@@ -119,7 +119,7 @@ check_login();
                 <div class="modal-header">
                     <h5 class="modal-title" id="suratJalanModalLabel">Tambah Surat Jalan</h5>
                     <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" style="border:none;background:transparent;></button>
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden=" true">&times;</span>
                 </div>
                 <div class="modal-body">
                     <form id="suratJalanForm">
@@ -354,7 +354,7 @@ check_login();
             // Inisialisasi DataTable
             $('#dataTable').DataTable();
 
-           
+
             $('#idOrder').change(handleOrderChange);
             $('#suratJalanForm').submit(handleFormSubmit);
 
@@ -401,17 +401,26 @@ check_login();
                 url: 'suratjalan/add.php',
                 type: 'POST',
                 data: formData,
+                dataType: 'json', // penting supaya response dianggap JSON
                 success: function (response) {
-                    $('#suratJalanModal').modal('hide');
-                    $('#successAddModal').modal('show');
-                    $('.modal-backdrop').remove();
-                    $('#content-area').load('../views/suratjalan/suratjalan.php');
+                    if (response.success) {
+                        // Jika berhasil
+                        $('#suratJalanModal').modal('hide');
+                        $('.modal-backdrop').remove();
+                        $('#successAddModal .modal-body').text(response.message);
+                        $('#successAddModal').modal('show');
+                        $('#content-area').load('../views/suratjalan/suratjalan.php');
+                    } else {
+                        // Jika gagal (misal rule-based validation)
+                        alert(response.message); // tampilkan pesan error
+                    }
                 },
-                error: function () {
-                    alert("Terjadi kesalahan saat menyimpan Surat Jalan.");
+                error: function (xhr, status, error) {
+                    alert("Terjadi kesalahan saat menyimpan Surat Jalan: " + error);
                 }
             });
         }
+
 
         // Fungsi untuk menangani penghapusan data
         function handleDelete() {

@@ -86,7 +86,7 @@ if (!$result) {
                 <div class="modal-header">
                     <h5 class="modal-title" id="invoiceModalLabel">Tambah Invoice</h5>
                     <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" style="border:none;background:transparent;></button>
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden=" true">&times;</span>
                 </div>
                 <div class="modal-body">
                     <form id="invoiceForm">
@@ -551,16 +551,20 @@ if (!$result) {
                     url: 'invoice/add.php',
                     type: 'POST',
                     data: formData,
+                    dataType: 'json', // penting: agar response dianggap JSON
                     success: function (response) {
-                        console.log(response);
-                        if (response.trim() === "success") {
+                        if (response.success) {
+                            // Jika berhasil
                             $('#invoiceModal').modal('hide');
-                            $('#addModal').modal('hide');
                             $('.modal-backdrop').remove();
                             $('#successAddModal').modal('show');
                             $('#content-area').load('../views/invoice/invoice.php');
+                        } else if (response.error) {
+                            // Jika ada error dari rule-based check
+                            alert('Gagal: ' + response.error);
                         } else {
-                            alert('Gagal menyimpan data: ' + response);
+                            // fallback
+                            alert('Terjadi kesalahan yang tidak terduga.');
                         }
                     },
                     error: function () {

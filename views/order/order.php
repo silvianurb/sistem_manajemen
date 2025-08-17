@@ -122,7 +122,7 @@ check_login();
                 <div class="modal-header">
                     <h5 class="modal-title" id="addModalLabel">Tambah Order</h5>
                     <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" style="border:none;background:transparent;></button>
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden=" true">&times;</span>
                 </div>
                 <div class="modal-body">
                     <form id="addForm">
@@ -407,10 +407,15 @@ check_login();
                     type: 'POST',
                     data: formData,
                     success: function (response) {
-                        $('#addModal').modal('hide');
-                        $('.modal-backdrop').remove();
-                        $('#successAddModal').modal('show');
-                        $('#content-area').load('../views/order/order.php'); 
+                        let res = JSON.parse(response); // parse JSON dari server
+                        if (res.success) {
+                            $('#addModal').modal('hide');
+                            $('.modal-backdrop').remove();
+                            $('#successAddModal').modal('show');
+                            $('#content-area').load('../views/order/order.php');
+                        } else {
+                            alert(res.message); // tampilkan error dari rule-based validation
+                        }
                     },
                     error: function (xhr, status, error) {
                         alert("Data gagal ditambahkan.");
